@@ -73,3 +73,42 @@ actions/upload-pages-artifact@v4
 actions/upload-release-asset@v1
 ```
 <!-- VERSIONS_END -->
+
+<!-- VERSIONS_SHA_START -->
+## Latest versions (SHA-pinned)
+
+```
+actions/ai-inference@334892bb203895caaed82ec52d23c1ed9385151e # v2.0.4
+actions/attest@7667f588f2f73a90cea6c7ac70e78266c4f76616 # v3.1.0
+actions/attest-build-provenance@00014ed6ed5efc5b1ab7f7f34a39eb55d41aa4f8 # v3.1.0
+actions/attest-sbom@4651f806c01d8637787e274ac3bdf724ef169f34 # v3.0.0
+actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
+actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+actions/dependency-review-action@3c4e3dcb1aa7874d2c16be7d79418e9b7efd6261 # v4.8.2
+actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.1.0
+actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+actions/go-dependency-submission@f35d5c9af13ce9cc32f7930b171e315e878f6921 # v2.0.3
+actions/javascript-action@4be183afbd08ddadedcf09f17e8e112326894107 # v1.0.1
+actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
+actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
+actions/publish-immutable-action@4bc8754ffc40f27910afb20287dbbbb675a4e978 # v0.0.4
+actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
+actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
+actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
+actions/setup-haskell@048c29979717135f04282c42c2186bb5945b2d8f # v1.1.4
+actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
+actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1.1.3
+actions/stale@997185467fa4f803885201cee163a9f38240193d # v10.1.1
+actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
+```
+<!-- VERSIONS_SHA_END -->
