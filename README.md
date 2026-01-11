@@ -8,6 +8,26 @@ Access that URL for a list of all of the official Actions belonging to the [GitH
 
 You can point coding agents such as Claude Code and Codex CLI at this URL so they know the most recent Actions versions to use in their workflow files.
 
+## Usage
+
+### Running Locally
+
+To run the script locally and avoid GitHub API rate limits, set a `GITHUB_TOKEN` environment variable:
+
+```bash
+export GITHUB_TOKEN=ghp_your_token_here
+python3 fetch_versions.py
+```
+
+The token is optional - without it, the script works with lower API rate limits (60 requests/hour for unauthenticated requests).
+
+### Output Files
+
+The script generates two version files:
+
+- **`versions.txt`** - Simple format with integer version tags: `actions/checkout@v6`
+- **`versions-sha.txt`** - SHA-pinned format with semver tags: `actions/checkout@abcdef123 # v6.1.0`
+
 ## Fork Note
 
 This is a personal fork of the [actions-latest](https://github.com/simonw/actions-latest) project by [Simon Willison](https://github.com/simonw). Contributions to this fork may not be considered or merged.

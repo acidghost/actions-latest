@@ -7,6 +7,7 @@ This is a personal fork of the [actions-latest](https://github.com/simonw/action
 - Fetches all repos from the GitHub `actions` organization via the GitHub REST API
 - Extracts the latest `vINTEGER` tag (e.g., `v1`, `v2`, `v10`) from each repo
 - Writes results to `versions.txt` (one line per repo: `org/repo@tag`)
+- Writes SHA-pinned results to `versions-sha.txt` (one line per repo: `org/repo@sha # v.X.Y.Z`)
 - Updates the README.md with the latest versions
 - Caches repos known to have no vINTEGER tags to avoid repeated API calls
 
@@ -26,22 +27,30 @@ python -m unittest test_fetch_versions -v
 python fetch_versions.py
 ```
 
+To avoid GitHub API rate limits locally, set a `GITHUB_TOKEN` environment variable:
+
+```bash
+export GITHUB_TOKEN=ghp_your_token_here
+python fetch_versions.py
+```
+
 ### CI Workflow
 
 The GitHub Actions workflow runs automatically daily at 4:51 UTC and can be manually triggered via `workflow_dispatch`. It:
 
 1. Runs tests
-2. Executes `fetch_versions.py`
-3. Commits and pushes changes to `versions.txt` and `unversioned.txt`
+2. Executes `fetch_versions.py` (with `secrets.GITHUB_TOKEN` for authenticated API requests)
+3. Commits and pushes changes to `versions.txt`, `versions-sha.txt`, and `unversioned.txt`
 
 ## Code Organization
 
 ### Key Files
 
-- **`fetch_versions.py`** - Main script (217 lines)
+- **`fetch_versions.py`** - Main script (276 lines)
   - `fetch_repos()` - Fetches all repos for an org with pagination
   - `fetch_tags()` - Fetches all tags for a repo with pagination
   - `get_latest_version_tag()` - Extracts latest `^v(\d+)$` pattern tag
+  - `get_latest_semver_tag()` - Extracts latest semantic version `^v(\d+)\.(\d+)\.(\d+)$` pattern
   - `update_readme()` - Updates README.md between marker comments
   - `load_unversioned()` / `save_unversioned()` - Cache management
   - `main()` - Orchestrates the entire process
@@ -53,6 +62,11 @@ The GitHub Actions workflow runs automatically daily at 4:51 UTC and can be manu
 
 - **`versions.txt`** - Output file (auto-generated)
   - Format: one line per repo: `org/repo@tag`
+  - Sorted alphabetically by repo name
+
+- **`versions-sha.txt`** - SHA-pinned output file (auto-generated)
+  - Format: one line per repo: `org/repo@commit-sha # v.X.Y.Z`
+  - Includes full commit SHA and semantic version tag
   - Sorted alphabetically by repo name
 
 - **`unversioned.txt`** - Cache file (auto-generated)
@@ -85,6 +99,7 @@ The GitHub Actions workflow runs automatically daily at 4:51 UTC and can be manu
 - Uses `subprocess.run` with `curl` to call GitHub API
 - Accept header: `application/vnd.github+json`
 - Base URL: `https://api.github.com`
+- Optional Authorization header with `GITHUB_TOKEN` environment variable (higher rate limits)
 
 ### Version Tag Pattern
 
@@ -170,9 +185,11 @@ with tempfile.TemporaryDirectory() as tmpdir:
 
 ### API Rate Limiting
 
-- GitHub API has rate limits (60 requests/hour for unauthenticated)
+- GitHub API has rate limits (60 requests/hour for unauthenticated, 5000/hour with token)
 - The script uses caching to minimize API calls on subsequent runs
-- If hitting limits, consider authenticating (not currently implemented)
+- Set `GITHUB_TOKEN` environment variable to avoid hitting limits:
+  - Locally: `export GITHUB_TOKEN=ghp_your_token_here`
+  - GitHub Actions: Automatically uses `secrets.GITHUB_TOKEN`
 
 ### No Dependencies
 
