@@ -10,6 +10,7 @@ API calls on future runs.
 """
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -18,6 +19,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 VERSIONS_FILE = SCRIPT_DIR / "versions.txt"
+VERSIONS_SHA_FILE = SCRIPT_DIR / "versions-sha.txt"
 UNVERSIONED_FILE = SCRIPT_DIR / "unversioned.txt"
 README_FILE = SCRIPT_DIR / "README.md"
 
@@ -32,7 +34,11 @@ def load_unversioned() -> set[str]:
     """Load the set of repos known to have no vINTEGER tags."""
     if not UNVERSIONED_FILE.exists():
         return set()
-    return set(line.strip() for line in UNVERSIONED_FILE.read_text().splitlines() if line.strip())
+    return set(
+        line.strip()
+        for line in UNVERSIONED_FILE.read_text().splitlines()
+        if line.strip()
+    )
 
 
 def save_unversioned(repos: set[str]) -> None:
@@ -63,7 +69,7 @@ def update_readme(versions_content: str) -> None:
         # Replace existing section
         pattern = re.compile(
             re.escape(README_START_MARKER) + r".*?" + re.escape(README_END_MARKER),
-            re.DOTALL
+            re.DOTALL,
         )
         new_readme = pattern.sub(new_section, readme_text)
     else:
@@ -82,14 +88,28 @@ def fetch_repos(org: str) -> list[dict]:
 
     while True:
         url = f"{GITHUB_API_URL}/orgs/{org}/repos?per_page={per_page}&page={page}"
+        headers = ["-H", "Accept: application/vnd.github+json"]
+
+        token = os.environ.get("GITHUB_TOKEN")
+        if token:
+            headers.extend(["-H", f"Authorization: token {token}"])
+
         result = subprocess.run(
-            ["curl", "-s", "-H", "Accept: application/vnd.github+json", url],
+            ["curl", "-s"] + headers + [url],
             capture_output=True,
             text=True,
             check=True,
         )
 
         page_repos = json.loads(result.stdout)
+
+        # Handle error responses (e.g., rate limiting)
+        if isinstance(page_repos, dict) and "message" in page_repos:
+            print(
+                f"API error: {page_repos.get('message', 'Unknown error')}",
+                file=sys.stderr,
+            )
+            break
 
         if not page_repos:
             break
@@ -104,16 +124,25 @@ def fetch_repos(org: str) -> list[dict]:
     return repos
 
 
-def fetch_tags(org: str, repo_name: str) -> list[str]:
-    """Fetch all tags for a repository using the GitHub API."""
+def fetch_tags(org: str, repo_name: str) -> list[tuple[str, str]]:
+    """Fetch all tags for a repository using the GitHub API.
+
+    Returns a list of (tag_name, commit_sha) tuples.
+    """
     tags = []
     page = 1
     per_page = 100
 
     while True:
         url = f"{GITHUB_API_URL}/repos/{org}/{repo_name}/tags?per_page={per_page}&page={page}"
+        headers = ["-H", "Accept: application/vnd.github+json"]
+
+        token = os.environ.get("GITHUB_TOKEN")
+        if token:
+            headers.extend(["-H", f"Authorization: token {token}"])
+
         result = subprocess.run(
-            ["curl", "-s", "-H", "Accept: application/vnd.github+json", url],
+            ["curl", "-s"] + headers + [url],
             capture_output=True,
             text=True,
             check=True,
@@ -123,13 +152,15 @@ def fetch_tags(org: str, repo_name: str) -> list[str]:
 
         # Handle error responses (e.g., rate limiting)
         if isinstance(page_tags, dict) and "message" in page_tags:
-            print(f"  API error for {repo_name}: {page_tags['message']}", file=sys.stderr)
+            print(
+                f"  API error for {repo_name}: {page_tags['message']}", file=sys.stderr
+            )
             break
 
         if not page_tags:
             break
 
-        tags.extend(tag["name"] for tag in page_tags)
+        tags.extend((tag["name"], tag["commit"]["sha"]) for tag in page_tags)
 
         if len(page_tags) < per_page:
             break
@@ -139,23 +170,53 @@ def fetch_tags(org: str, repo_name: str) -> list[str]:
     return tags
 
 
-def get_latest_version_tag(tags: list[str]) -> str | None:
-    """Get the latest vINTEGER tag from a list of tags."""
+def get_latest_version_tag(tags: list[tuple[str, str]]) -> str | None:
+    """Get the latest vINTEGER tag from a list of (tag_name, commit_sha) tuples.
+
+    Returns only the tag name.
+    """
     # Filter to vINTEGER tags (e.g., v1, v2, v10)
     version_pattern = re.compile(r"^v(\d+)$")
     version_tags = []
 
-    for tag in tags:
-        match = version_pattern.match(tag.strip())
+    for tag_name, commit_sha in tags:
+        match = version_pattern.match(tag_name.strip())
         if match:
-            version_tags.append((int(match.group(1)), tag.strip()))
+            version_tags.append((int(match.group(1)), tag_name.strip()))
 
     if not version_tags:
         return None
 
-    # Sort by version number descending and return the latest
+    # Sort by version number descending and return the latest tag name
     version_tags.sort(reverse=True, key=lambda x: x[0])
     return version_tags[0][1]
+
+
+def get_latest_semver_tag(tags: list[tuple[str, str]]) -> tuple[str, str] | None:
+    """Get the latest semantic version tag from a list of (tag_name, commit_sha) tuples.
+
+    Returns a tuple of (tag_name, commit_sha) or None if no semver tag found.
+
+    Supports semver format: vX.Y.Z where X, Y, Z are integers.
+    """
+    # Filter to semver tags (e.g., v1.2.3, v2.0.0)
+    version_pattern = re.compile(r"^v(\d+)\.(\d+)\.(\d+)$")
+    version_tags = []
+
+    for tag_name, commit_sha in tags:
+        match = version_pattern.match(tag_name.strip())
+        if match:
+            major = int(match.group(1))
+            minor = int(match.group(2))
+            patch = int(match.group(3))
+            version_tags.append(((major, minor, patch), tag_name.strip(), commit_sha))
+
+    if not version_tags:
+        return None
+
+    # Sort by version number descending (major, minor, patch)
+    version_tags.sort(reverse=True, key=lambda x: x[0])
+    return (version_tags[0][1], version_tags[0][2])
 
 
 def main():
@@ -170,6 +231,7 @@ def main():
     print(f"Found {len(repos)} repos")
 
     versions = []
+    versions_sha = []
     new_unversioned = set()
 
     for repo in repos:
@@ -184,25 +246,45 @@ def main():
         print(f"Fetching tags for {repo_name}...", end=" ")
         tags = fetch_tags(ORG_NAME, repo_name)
         latest_tag = get_latest_version_tag(tags)
+        latest_semver = get_latest_semver_tag(tags)
 
         if latest_tag:
             versions.append((repo_name, latest_tag))
             print(f"{latest_tag}")
+
+            # Also add semver info if available
+            if latest_semver:
+                semver_tag, commit_sha = latest_semver
+                versions_sha.append((repo_name, commit_sha, semver_tag))
         else:
             print("no vINTEGER tag")
             new_unversioned.add(repo_name)
 
     # Sort alphabetically by repo name
     versions.sort(key=lambda x: x[0].lower())
+    versions_sha.sort(key=lambda x: x[0].lower())
 
     # Build versions content
-    versions_content = "\n".join(
-        f"{ORG_NAME}/{repo_name}@{tag}" for repo_name, tag in versions
-    ) + "\n"
+    versions_content = (
+        "\n".join(f"{ORG_NAME}/{repo_name}@{tag}" for repo_name, tag in versions) + "\n"
+    )
 
     # Write versions.txt
     with open(VERSIONS_FILE, "w") as f:
         f.write(versions_content)
+
+    # Build versions-sha.txt content
+    versions_sha_content = (
+        "\n".join(
+            f"{ORG_NAME}/{repo_name}@{commit_sha} # {tag}"
+            for repo_name, commit_sha, tag in versions_sha
+        )
+        + "\n"
+    )
+
+    # Write versions-sha.txt
+    with open(VERSIONS_SHA_FILE, "w") as f:
+        f.write(versions_sha_content)
 
     # Update README.md with the versions
     update_readme(versions_content)
@@ -211,6 +293,7 @@ def main():
     save_unversioned(new_unversioned)
 
     print(f"\nWrote {len(versions)} versions to {VERSIONS_FILE}")
+    print(f"Wrote {len(versions_sha)} versions with SHAs to {VERSIONS_SHA_FILE}")
     print(f"Cached {len(new_unversioned)} unversioned repos to {UNVERSIONED_FILE}")
 
 

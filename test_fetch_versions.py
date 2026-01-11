@@ -72,9 +72,9 @@ class TestFetchTags(unittest.TestCase):
     def test_fetch_tags_single_page(self, mock_run):
         """Test fetching tags when all fit on one page."""
         mock_tags = [
-            {"name": "v1"},
-            {"name": "v2"},
-            {"name": "v3"},
+            {"name": "v1", "commit": {"sha": "abc123"}},
+            {"name": "v2", "commit": {"sha": "def456"}},
+            {"name": "v3", "commit": {"sha": "ghi789"}},
         ]
 
         mock_run.return_value = MagicMock(
@@ -85,15 +85,15 @@ class TestFetchTags(unittest.TestCase):
         tags = fetch_versions.fetch_tags("actions", "setup-python")
 
         self.assertEqual(len(tags), 3)
-        self.assertEqual(tags, ["v1", "v2", "v3"])
+        self.assertEqual(tags, [("v1", "abc123"), ("v2", "def456"), ("v3", "ghi789")])
 
     @patch("fetch_versions.subprocess.run")
     def test_fetch_tags_multiple_pages(self, mock_run):
         """Test fetching tags when pagination is needed."""
         # First page - full page of 100 tags
-        first_page = [{"name": f"v{i}"} for i in range(100)]
+        first_page = [{"name": f"v{i}", "commit": {"sha": f"sha{i}"}} for i in range(100)]
         # Second page - partial page (last page)
-        second_page = [{"name": "v100"}]
+        second_page = [{"name": "v100", "commit": {"sha": "sha100"}}]
 
         mock_run.side_effect = [
             MagicMock(stdout=json.dumps(first_page), returncode=0),
@@ -169,28 +169,28 @@ class TestGetLatestVersionTag(unittest.TestCase):
 
     def test_get_latest_version_tag(self):
         """Test getting the latest vINTEGER tag."""
-        tags = ["v1", "v2", "v3", "v10", "v2.1.0"]
+        tags = [("v1", "sha1"), ("v2", "sha2"), ("v3", "sha3"), ("v10", "sha10"), ("v2.1.0", "sha2.1.0")]
         result = fetch_versions.get_latest_version_tag(tags)
 
         self.assertEqual(result, "v10")
 
     def test_get_latest_version_tag_no_vinteger(self):
         """Test when repo has no vINTEGER tags."""
-        tags = ["v1.0.0", "v2.0.0", "release-1"]
+        tags = [("v1.0.0", "sha1.0.0"), ("v2.0.0", "sha2.0.0"), ("release-1", "sha-rel1")]
         result = fetch_versions.get_latest_version_tag(tags)
 
         self.assertIsNone(result)
 
     def test_get_latest_version_tag_empty(self):
         """Test when repo has no tags at all."""
-        tags = []
+        tags: list[tuple[str, str]] = []
         result = fetch_versions.get_latest_version_tag(tags)
 
         self.assertIsNone(result)
 
     def test_version_ordering(self):
         """Test that version ordering is numeric, not lexicographic."""
-        tags = ["v9", "v10", "v2", "v1"]
+        tags = [("v9", "sha9"), ("v10", "sha10"), ("v2", "sha2"), ("v1", "sha1")]
         result = fetch_versions.get_latest_version_tag(tags)
 
         # v10 should be latest, not v9 (which would be latest lexicographically)
@@ -235,9 +235,9 @@ class TestMain(unittest.TestCase):
             # Mock fetch_tags to return tags for each repo
             def fetch_tags_side_effect(org, repo_name):
                 if repo_name == "setup-python":
-                    return ["v1", "v2", "v5"]
+                    return [("v1", "sha1"), ("v2", "sha2"), ("v5", "sha5")]
                 elif repo_name == "setup-node":
-                    return ["v1", "v2", "v3", "v4"]
+                    return [("v1", "sha1"), ("v2", "sha2"), ("v3", "sha3"), ("v4", "sha4")]
                 else:
                     return []  # no-tags-repo has no tags
 
@@ -245,9 +245,10 @@ class TestMain(unittest.TestCase):
 
             # Mock get_latest_version_tag to return versions for some repos
             def get_tag_side_effect(tags):
-                if "v5" in tags:
+                tag_names = [tag_name for tag_name, _ in tags]
+                if "v5" in tag_names:
                     return "v5"
-                elif "v4" in tags:
+                elif "v4" in tag_names:
                     return "v4"
                 else:
                     return None
@@ -314,7 +315,7 @@ class TestMain(unittest.TestCase):
             ]
 
             # Mock fetch_tags - should only be called for setup-python
-            mock_fetch_tags.return_value = ["v1", "v5"]
+            mock_fetch_tags.return_value = [("v1", "sha1"), ("v5", "sha5")]
             mock_get_tag.return_value = "v5"
 
             # Patch open() to write to our temp file
