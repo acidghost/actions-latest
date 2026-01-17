@@ -2,7 +2,7 @@ actions/ai-inference@334892bb203895caaed82ec52d23c1ed9385151e # v2.0.4
 actions/attest@7667f588f2f73a90cea6c7ac70e78266c4f76616 # v3.1.0
 actions/attest-build-provenance@00014ed6ed5efc5b1ab7f7f34a39eb55d41aa4f8 # v3.1.0
 actions/attest-sbom@4651f806c01d8637787e274ac3bdf724ef169f34 # v3.0.0
-actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7 # v5.0.2
 actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
