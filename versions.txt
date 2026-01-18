@@ -33,3 +33,11 @@ actions/stale@v10
 actions/upload-artifact@v6
 actions/upload-pages-artifact@v4
 actions/upload-release-asset@v1
+astral-sh/setup-uv@v7
+dependabot/fetch-metadata@v2
+docker/build-push-action@v6
+docker/login-action@v3
+docker/setup-buildx-action@v3
+golangci/golangci-lint-action@v9
+goreleaser/goreleaser-action@v6
+taiki-e/install-action@v2

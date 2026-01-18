@@ -29,7 +29,26 @@ README_END_MARKER = "<!-- VERSIONS_END -->"
 README_SHA_START_MARKER = "<!-- VERSIONS_SHA_START -->"
 README_SHA_END_MARKER = "<!-- VERSIONS_SHA_END -->"
 ORG_NAME = "actions"
+ADDITIONAL_REPOS: list[str] = [
+    "astral-sh/setup-uv",
+    "dependabot/fetch-metadata",
+    "docker/build-push-action",
+    "docker/login-action",
+    "docker/setup-buildx-action",
+    "golangci/golangci-lint-action",
+    "goreleaser/goreleaser-action",
+    "ruby/setup-ruby",
+    "taiki-e/install-action",
+]
 GITHUB_API_URL = "https://api.github.com"
+
+
+def parse_repo(repo_ref: str) -> tuple[str, str]:
+    """Parse 'org/repo' format into (org, repo_name) tuple."""
+    parts = repo_ref.split("/")
+    if len(parts) != 2:
+        raise ValueError(f"Invalid repo format: {repo_ref}, expected 'org/repo'")
+    return (parts[0], parts[1])
 
 
 def load_unversioned() -> set[str]:
@@ -102,7 +121,9 @@ def update_readme_sha(versions_sha_content: str) -> None:
     if README_SHA_START_MARKER in readme_text and README_SHA_END_MARKER in readme_text:
         # Replace existing section
         pattern = re.compile(
-            re.escape(README_SHA_START_MARKER) + r".*?" + re.escape(README_SHA_END_MARKER),
+            re.escape(README_SHA_START_MARKER)
+            + r".*?"
+            + re.escape(README_SHA_END_MARKER),
             re.DOTALL,
         )
         new_readme = pattern.sub(new_section, readme_text)
@@ -213,7 +234,7 @@ def get_latest_version_tag(tags: list[tuple[str, str]]) -> str | None:
     version_pattern = re.compile(r"^v(\d+)$")
     version_tags = []
 
-    for tag_name, commit_sha in tags:
+    for tag_name, _ in tags:
         match = version_pattern.match(tag_name.strip())
         if match:
             version_tags.append((int(match.group(1)), tag_name.strip()))
@@ -260,47 +281,62 @@ def main():
     if unversioned:
         print(f"Loaded {len(unversioned)} known unversioned repos from cache")
 
+    # Fetch repos from the main organization
     print(f"Fetching repos for {ORG_NAME}...")
-    repos = fetch_repos(ORG_NAME)
-    print(f"Found {len(repos)} repos")
+    org_repos = fetch_repos(ORG_NAME)
+    print(f"Found {len(org_repos)} repos")
+
+    # Build list of repos to process: combine org repos with additional repos
+    repos_to_process = []
+
+    # Add repos from main organization
+    for repo in org_repos:
+        repos_to_process.append((f"{ORG_NAME}/{repo['name']}", ORG_NAME, repo["name"]))
+
+    # Add additional repos
+    for additional_repo in ADDITIONAL_REPOS:
+        org, repo_name = parse_repo(additional_repo)
+        repos_to_process.append((additional_repo, org, repo_name))
+
+    print(
+        f"Processing {len(repos_to_process)} repos total (including {len(ADDITIONAL_REPOS)} additional)"
+    )
 
     versions = []
     versions_sha = []
     new_unversioned = set()
 
-    for repo in repos:
-        repo_name = repo["name"]
-
+    for repo_ref, org, repo_name in repos_to_process:
         # Skip repos known to have no vINTEGER tags
-        if repo_name in unversioned:
-            print(f"Skipping {repo_name} (cached as unversioned)")
-            new_unversioned.add(repo_name)
+        if repo_ref in unversioned:
+            print(f"Skipping {repo_ref} (cached as unversioned)")
+            new_unversioned.add(repo_ref)
             continue
 
-        print(f"Fetching tags for {repo_name}...", end=" ")
-        tags = fetch_tags(ORG_NAME, repo_name)
+        print(f"Fetching tags for {repo_ref}...", end=" ")
+        tags = fetch_tags(org, repo_name)
         latest_tag = get_latest_version_tag(tags)
         latest_semver = get_latest_semver_tag(tags)
 
         if latest_tag:
-            versions.append((repo_name, latest_tag))
+            versions.append((repo_ref, latest_tag))
             print(f"{latest_tag}")
 
             # Also add semver info if available
             if latest_semver:
                 semver_tag, commit_sha = latest_semver
-                versions_sha.append((repo_name, commit_sha, semver_tag))
+                versions_sha.append((repo_ref, commit_sha, semver_tag))
         else:
             print("no vINTEGER tag")
-            new_unversioned.add(repo_name)
+            new_unversioned.add(repo_ref)
 
-    # Sort alphabetically by repo name
+    # Sort alphabetically by repo reference
     versions.sort(key=lambda x: x[0].lower())
     versions_sha.sort(key=lambda x: x[0].lower())
 
     # Build versions content
     versions_content = (
-        "\n".join(f"{ORG_NAME}/{repo_name}@{tag}" for repo_name, tag in versions) + "\n"
+        "\n".join(f"{repo_ref}@{tag}" for repo_ref, tag in versions) + "\n"
     )
 
     # Write versions.txt
@@ -310,8 +346,8 @@ def main():
     # Build versions-sha.txt content
     versions_sha_content = (
         "\n".join(
-            f"{ORG_NAME}/{repo_name}@{commit_sha} # {tag}"
-            for repo_name, commit_sha, tag in versions_sha
+            f"{repo_ref}@{commit_sha} # {tag}"
+            for repo_ref, commit_sha, tag in versions_sha
         )
         + "\n"
     )

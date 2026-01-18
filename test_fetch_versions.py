@@ -19,8 +19,14 @@ class TestFetchRepos(unittest.TestCase):
     def test_fetch_repos_single_page(self, mock_run):
         """Test fetching repos when all fit on one page."""
         mock_repos = [
-            {"name": "setup-python", "clone_url": "https://github.com/actions/setup-python.git"},
-            {"name": "setup-node", "clone_url": "https://github.com/actions/setup-node.git"},
+            {
+                "name": "setup-python",
+                "clone_url": "https://github.com/actions/setup-python.git",
+            },
+            {
+                "name": "setup-node",
+                "clone_url": "https://github.com/actions/setup-node.git",
+            },
         ]
 
         mock_run.return_value = MagicMock(
@@ -38,9 +44,17 @@ class TestFetchRepos(unittest.TestCase):
     def test_fetch_repos_multiple_pages(self, mock_run):
         """Test fetching repos when pagination is needed."""
         # First page - full page of 100 repos
-        first_page = [{"name": f"repo-{i}", "clone_url": f"https://github.com/actions/repo-{i}.git"} for i in range(100)]
+        first_page = [
+            {
+                "name": f"repo-{i}",
+                "clone_url": f"https://github.com/actions/repo-{i}.git",
+            }
+            for i in range(100)
+        ]
         # Second page - partial page (last page)
-        second_page = [{"name": "repo-100", "clone_url": "https://github.com/actions/repo-100.git"}]
+        second_page = [
+            {"name": "repo-100", "clone_url": "https://github.com/actions/repo-100.git"}
+        ]
 
         mock_run.side_effect = [
             MagicMock(stdout=json.dumps(first_page), returncode=0),
@@ -91,7 +105,9 @@ class TestFetchTags(unittest.TestCase):
     def test_fetch_tags_multiple_pages(self, mock_run):
         """Test fetching tags when pagination is needed."""
         # First page - full page of 100 tags
-        first_page = [{"name": f"v{i}", "commit": {"sha": f"sha{i}"}} for i in range(100)]
+        first_page = [
+            {"name": f"v{i}", "commit": {"sha": f"sha{i}"}} for i in range(100)
+        ]
         # Second page - partial page (last page)
         second_page = [{"name": "v100", "commit": {"sha": "sha100"}}]
 
@@ -136,7 +152,9 @@ class TestUnversionedCache(unittest.TestCase):
     def test_load_unversioned_file_not_exists(self):
         """Test loading when unversioned.txt doesn't exist."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            with patch.object(fetch_versions, "UNVERSIONED_FILE", Path(tmpdir) / "unversioned.txt"):
+            with patch.object(
+                fetch_versions, "UNVERSIONED_FILE", Path(tmpdir) / "unversioned.txt"
+            ):
                 result = fetch_versions.load_unversioned()
                 self.assertEqual(result, set())
 
@@ -169,14 +187,24 @@ class TestGetLatestVersionTag(unittest.TestCase):
 
     def test_get_latest_version_tag(self):
         """Test getting the latest vINTEGER tag."""
-        tags = [("v1", "sha1"), ("v2", "sha2"), ("v3", "sha3"), ("v10", "sha10"), ("v2.1.0", "sha2.1.0")]
+        tags = [
+            ("v1", "sha1"),
+            ("v2", "sha2"),
+            ("v3", "sha3"),
+            ("v10", "sha10"),
+            ("v2.1.0", "sha2.1.0"),
+        ]
         result = fetch_versions.get_latest_version_tag(tags)
 
         self.assertEqual(result, "v10")
 
     def test_get_latest_version_tag_no_vinteger(self):
         """Test when repo has no vINTEGER tags."""
-        tags = [("v1.0.0", "sha1.0.0"), ("v2.0.0", "sha2.0.0"), ("release-1", "sha-rel1")]
+        tags = [
+            ("v1.0.0", "sha1.0.0"),
+            ("v2.0.0", "sha2.0.0"),
+            ("release-1", "sha-rel1"),
+        ]
         result = fetch_versions.get_latest_version_tag(tags)
 
         self.assertIsNone(result)
@@ -237,7 +265,12 @@ class TestMain(unittest.TestCase):
                 if repo_name == "setup-python":
                     return [("v1", "sha1"), ("v2", "sha2"), ("v5", "sha5")]
                 elif repo_name == "setup-node":
-                    return [("v1", "sha1"), ("v2", "sha2"), ("v3", "sha3"), ("v4", "sha4")]
+                    return [
+                        ("v1", "sha1"),
+                        ("v2", "sha2"),
+                        ("v3", "sha3"),
+                        ("v4", "sha4"),
+                    ]
                 else:
                     return []  # no-tags-repo has no tags
 
@@ -281,7 +314,7 @@ class TestMain(unittest.TestCase):
             # Verify unversioned repos were saved
             mock_save_unversioned.assert_called_once()
             saved_unversioned = mock_save_unversioned.call_args[0][0]
-            self.assertIn("no-tags-repo", saved_unversioned)
+            self.assertIn("actions/no-tags-repo", saved_unversioned)
 
     @patch("fetch_versions.save_unversioned")
     @patch("fetch_versions.load_unversioned")
@@ -305,8 +338,8 @@ class TestMain(unittest.TestCase):
             mock_versions_file.__str__ = lambda self: str(versions_file)
             mock_versions_file.__fspath__ = lambda self: str(versions_file)
 
-            # Cached unversioned repos
-            mock_load_unversioned.return_value = {"cached-no-tags"}
+            # Cached unversioned repos (now stored as full references)
+            mock_load_unversioned.return_value = {"actions/cached-no-tags"}
 
             # Mock fetch_repos to return test data including cached repo
             mock_fetch_repos.return_value = [
@@ -367,6 +400,120 @@ class TestVersionPatternMatching(unittest.TestCase):
         ]
         for tag in invalid_tags:
             self.assertIsNone(pattern.match(tag), f"{tag} should not match")
+
+
+class TestParseRepo(unittest.TestCase):
+    """Tests for the parse_repo function."""
+
+    def test_parse_repo_valid(self):
+        """Test parsing valid org/repo format."""
+        org, repo_name = fetch_versions.parse_repo("actions/setup-python")
+        self.assertEqual(org, "actions")
+        self.assertEqual(repo_name, "setup-python")
+
+    def test_parse_repo_different_org(self):
+        """Test parsing from a different organization."""
+        org, repo_name = fetch_versions.parse_repo("someorg/somerepo")
+        self.assertEqual(org, "someorg")
+        self.assertEqual(repo_name, "somerepo")
+
+    def test_parse_repo_invalid_missing_org(self):
+        """Test parsing invalid format (missing org)."""
+        with self.assertRaises(ValueError):
+            fetch_versions.parse_repo("somerepo")
+
+    def test_parse_repo_invalid_too_many_parts(self):
+        """Test parsing invalid format (too many parts)."""
+        with self.assertRaises(ValueError):
+            fetch_versions.parse_repo("org/repo/extra")
+
+    def test_parse_repo_invalid_empty(self):
+        """Test parsing empty string."""
+        with self.assertRaises(ValueError):
+            fetch_versions.parse_repo("")
+
+
+class TestAdditionalRepos(unittest.TestCase):
+    """Tests for additional repos functionality."""
+
+    @patch("fetch_versions.save_unversioned")
+    @patch("fetch_versions.load_unversioned")
+    @patch("fetch_versions.VERSIONS_SHA_FILE")
+    @patch("fetch_versions.VERSIONS_FILE")
+    @patch("fetch_versions.get_latest_semver_tag")
+    @patch("fetch_versions.get_latest_version_tag")
+    @patch("fetch_versions.fetch_tags")
+    @patch("fetch_versions.fetch_repos")
+    def test_main_with_additional_repos(
+        self,
+        mock_fetch_repos,
+        mock_fetch_tags,
+        mock_get_tag,
+        mock_get_semver,
+        mock_versions_file,
+        mock_versions_sha_file,
+        mock_load_unversioned,
+        mock_save_unversioned,
+    ):
+        """Test main function with additional repos."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            versions_file = tmppath / "versions.txt"
+            versions_sha_file = tmppath / "versions-sha.txt"
+            mock_versions_file.__str__ = lambda self: str(versions_file)
+            mock_versions_file.__fspath__ = lambda self: str(versions_file)
+            mock_versions_sha_file.__str__ = lambda self: str(versions_sha_file)
+            mock_versions_sha_file.__fspath__ = lambda self: str(versions_sha_file)
+
+            # Mock fetch_repos for main org
+            mock_fetch_repos.return_value = [{"name": "setup-python"}]
+
+            # Mock fetch_tags responses
+            def fetch_tags_side_effect(org, repo_name):
+                if org == "actions" and repo_name == "setup-python":
+                    return [("v1", "sha1"), ("v5", "sha5")]
+                elif org == "other" and repo_name == "some-action":
+                    return [("v2", "sha2"), ("v3", "sha3")]
+                return []
+
+            mock_fetch_tags.side_effect = fetch_tags_side_effect
+
+            # Mock get_latest_version_tag
+            def get_tag_side_effect(tags):
+                tag_names = [tag for tag, sha in tags]
+                if "v5" in tag_names:
+                    return "v5"
+                elif "v3" in tag_names:
+                    return "v3"
+                return None
+
+            mock_get_tag.side_effect = get_tag_side_effect
+            mock_get_semver.return_value = None
+
+            # Set additional repos
+            with patch.object(
+                fetch_versions, "ADDITIONAL_REPOS", ["other/some-action"]
+            ):
+                # Patch open() to write to our temp files
+                original_open = open
+
+                def patched_open(path, *args, **kwargs):
+                    if "versions.txt" in str(path):
+                        return original_open(versions_file, *args, **kwargs)
+                    if "versions-sha.txt" in str(path):
+                        return original_open(versions_sha_file, *args, **kwargs)
+                    return original_open(path, *args, **kwargs)
+
+                with patch("builtins.open", side_effect=patched_open):
+                    fetch_versions.main()
+
+            # Verify the versions file contains both repos
+            content = versions_file.read_text()
+            lines = content.strip().split("\n")
+
+            self.assertEqual(len(lines), 2)
+            self.assertIn("actions/setup-python@v5", lines)
+            self.assertIn("other/some-action@v3", lines)
 
 
 if __name__ == "__main__":
