@@ -38,7 +38,7 @@ This is a personal fork of the [actions-latest](https://github.com/simonw/action
 ## Latest versions
 
 ```
-actions/actions-sync@v202404231422
+actions/add-to-project@v1.0.2
 actions/ai-inference@v2
 actions/attest@v3
 actions/attest-build-provenance@v3
@@ -60,7 +60,6 @@ actions/hello-world-javascript-action@v1
 actions/javascript-action@v1
 actions/jekyll-build-pages@v1
 actions/labeler@v6
-actions/publish-immutable-action@v0
 actions/setup-dotnet@v5
 actions/setup-elixir@v1
 actions/setup-go@v6
@@ -80,6 +79,7 @@ docker/login-action@v3
 docker/setup-buildx-action@v3
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v6
+ruby/setup-ruby@v1.283.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -88,6 +88,7 @@ taiki-e/install-action@v2
 ## Latest versions (SHA-pinned)
 
 ```
+actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
 actions/ai-inference@334892bb203895caaed82ec52d23c1ed9385151e # v2.0.4
 actions/attest@7667f588f2f73a90cea6c7ac70e78266c4f76616 # v3.1.0
 actions/attest-build-provenance@00014ed6ed5efc5b1ab7f7f34a39eb55d41aa4f8 # v3.1.0
@@ -107,7 +108,6 @@ actions/go-dependency-submission@f35d5c9af13ce9cc32f7930b171e315e878f6921 # v2.0
 actions/javascript-action@4be183afbd08ddadedcf09f17e8e112326894107 # v1.0.1
 actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
 actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
-actions/publish-immutable-action@4bc8754ffc40f27910afb20287dbbbb675a4e978 # v0.0.4
 actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
 actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
@@ -127,6 +127,7 @@ docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
 docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6.4.0
+ruby/setup-ruby@708024e6c902387ab41de36e1669e43b5ee7085e # v1.283.0
 taiki-e/install-action@30eab0fabba9ea3f522099957e668b21876aa39e # v2.66.6
 ```
 <!-- VERSIONS_SHA_END -->

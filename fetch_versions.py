@@ -40,6 +40,19 @@ ADDITIONAL_REPOS: list[str] = [
     "ruby/setup-ruby",
     "taiki-e/install-action",
 ]
+SKIP_REPOS: list[str] = [
+    "action-versions",
+    "actions-runner-controller",
+    "actions-sync",
+    "alpine_nodejs",
+    "container-prebuilt-action",
+    "gh-actions-cache",
+    "github",
+    "publish-action",
+    "publish-immutable-action",
+    "runner",
+    "runner-container-hooks",
+]
 GITHUB_API_URL = "https://api.github.com"
 
 
@@ -289,9 +302,17 @@ def main():
     # Build list of repos to process: combine org repos with additional repos
     repos_to_process = []
 
-    # Add repos from main organization
+    # Add repos from main organization, excluding skipped ones
+    skipped_count = 0
     for repo in org_repos:
-        repos_to_process.append((f"{ORG_NAME}/{repo['name']}", ORG_NAME, repo["name"]))
+        repo_name = repo["name"]
+        if repo_name in SKIP_REPOS:
+            skipped_count += 1
+            continue
+        repos_to_process.append((f"{ORG_NAME}/{repo_name}", ORG_NAME, repo_name))
+
+    if skipped_count > 0:
+        print(f"Skipped {skipped_count} repos from {ORG_NAME}")
 
     # Add additional repos
     for additional_repo in ADDITIONAL_REPOS:
@@ -319,6 +340,7 @@ def main():
         latest_semver = get_latest_semver_tag(tags)
 
         if latest_tag:
+            # Use vINTEGER tag (preferred)
             versions.append((repo_ref, latest_tag))
             print(f"{latest_tag}")
 
@@ -326,8 +348,15 @@ def main():
             if latest_semver:
                 semver_tag, commit_sha = latest_semver
                 versions_sha.append((repo_ref, commit_sha, semver_tag))
+        elif latest_semver:
+            # Fallback to semver tag when no vINTEGER tag exists
+            semver_tag, commit_sha = latest_semver
+            versions.append((repo_ref, semver_tag))
+            versions_sha.append((repo_ref, commit_sha, semver_tag))
+            print(f"{semver_tag} (semver fallback)")
         else:
-            print("no vINTEGER tag")
+            # No version tags at all
+            print("no version tag")
             new_unversioned.add(repo_ref)
 
     # Sort alphabetically by repo reference

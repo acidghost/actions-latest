@@ -1,19 +1,12 @@
 actions/.github
-actions/action-versions
-actions/actions-runner-controller
-actions/add-to-project
-actions/alpine_nodejs
 actions/anno-test
 actions/boost-versions
 actions/buildtypes
 actions/component-detection-dependency-submission-action
 actions/container-action
-actions/container-prebuilt-action
 actions/container-toolkit-action
 actions/create-win-version
 actions/example-services
-actions/gh-actions-cache
-actions/github
 actions/go-versions
 actions/gradle-build-tools-actions
 actions/heroku
@@ -27,11 +20,8 @@ actions/maven-dependency-submission-action
 actions/node-versions
 actions/opensearch-pyd
 actions/partner-runner-images
-actions/publish-action
 actions/python-versions
 actions/reusable-workflows
-actions/runner
-actions/runner-container-hooks
 actions/runner-images
 actions/runner-images-PK
 actions/runner-images-PK1
@@ -43,4 +33,3 @@ actions/toolkit
 actions/typescript-action
 actions/versions-package-tools
 actions/virtual-environments-packages
-ruby/setup-ruby

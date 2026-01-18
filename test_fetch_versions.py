@@ -351,16 +351,18 @@ class TestMain(unittest.TestCase):
             mock_fetch_tags.return_value = [("v1", "sha1"), ("v5", "sha5")]
             mock_get_tag.return_value = "v5"
 
-            # Patch open() to write to our temp file
-            original_open = open
+            # Set additional repos to empty list
+            with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
+                # Patch open() to write to our temp file
+                original_open = open
 
-            def patched_open(path, *args, **kwargs):
-                if "versions.txt" in str(path):
-                    return original_open(versions_file, *args, **kwargs)
-                return original_open(path, *args, **kwargs)
+                def patched_open(path, *args, **kwargs):
+                    if "versions.txt" in str(path):
+                        return original_open(versions_file, *args, **kwargs)
+                    return original_open(path, *args, **kwargs)
 
-            with patch("builtins.open", side_effect=patched_open):
-                fetch_versions.main()
+                with patch("builtins.open", side_effect=patched_open):
+                    fetch_versions.main()
 
             # fetch_tags should only be called once (for setup-python, not cached-no-tags)
             self.assertEqual(mock_fetch_tags.call_count, 1)
@@ -431,6 +433,290 @@ class TestParseRepo(unittest.TestCase):
         """Test parsing empty string."""
         with self.assertRaises(ValueError):
             fetch_versions.parse_repo("")
+
+
+class TestSemverFallback(unittest.TestCase):
+    """Tests for semantic version fallback functionality."""
+
+    @patch("fetch_versions.save_unversioned")
+    @patch("fetch_versions.load_unversioned")
+    @patch("fetch_versions.VERSIONS_SHA_FILE")
+    @patch("fetch_versions.VERSIONS_FILE")
+    @patch("fetch_versions.get_latest_semver_tag")
+    @patch("fetch_versions.get_latest_version_tag")
+    @patch("fetch_versions.fetch_tags")
+    @patch("fetch_versions.fetch_repos")
+    def test_semver_fallback_no_vinteger(
+        self,
+        mock_fetch_repos,
+        mock_fetch_tags,
+        mock_get_tag,
+        mock_get_semver,
+        mock_versions_file,
+        mock_versions_sha_file,
+        mock_load_unversioned,
+        mock_save_unversioned,
+    ):
+        """Test semver fallback when repo has no vINTEGER tags."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            versions_file = tmppath / "versions.txt"
+            versions_sha_file = tmppath / "versions-sha.txt"
+            mock_versions_file.__str__ = lambda self: str(versions_file)
+            mock_versions_file.__fspath__ = lambda self: str(versions_file)
+            mock_versions_sha_file.__str__ = lambda self: str(versions_sha_file)
+            mock_versions_sha_file.__fspath__ = lambda self: str(versions_sha_file)
+
+            # Mock fetch_repos to return a repo with only semver tags
+            mock_fetch_repos.return_value = [{"name": "setup-ruby"}]
+
+            # Mock fetch_tags to return semver tags only (no vINTEGER)
+            mock_fetch_tags.return_value = [
+                ("v1.4.0", "sha1"),
+                ("v1.5.0", "sha2"),
+                ("v1.5.1", "sha3"),
+            ]
+
+            # No vINTEGER tag, but latest semver available
+            mock_get_tag.return_value = None
+            mock_get_semver.return_value = ("v1.5.1", "sha3")
+
+            # Set additional repos to empty list
+            with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
+                # Patch open() to write to our temp files
+                original_open = open
+
+                def patched_open(path, *args, **kwargs):
+                    if "versions.txt" in str(path):
+                        return original_open(versions_file, *args, **kwargs)
+                    if "versions-sha.txt" in str(path):
+                        return original_open(versions_sha_file, *args, **kwargs)
+                    return original_open(path, *args, **kwargs)
+
+                with patch("builtins.open", side_effect=patched_open):
+                    fetch_versions.main()
+
+            # Verify the semver tag was used as fallback
+            content = versions_file.read_text()
+            lines = content.strip().split("\n")
+
+            self.assertEqual(len(lines), 1)
+            self.assertEqual(lines[0], "actions/setup-ruby@v1.5.1")
+
+            # Verify SHA-pinned version was also created
+            sha_content = versions_sha_file.read_text()
+            self.assertIn("actions/setup-ruby@sha3 # v1.5.1", sha_content)
+
+            # Verify repo was NOT marked as unversioned
+            saved_unversioned = mock_save_unversioned.call_args[0][0]
+            self.assertNotIn("actions/setup-ruby", saved_unversioned)
+
+    @patch("fetch_versions.save_unversioned")
+    @patch("fetch_versions.load_unversioned")
+    @patch("fetch_versions.VERSIONS_SHA_FILE")
+    @patch("fetch_versions.VERSIONS_FILE")
+    @patch("fetch_versions.get_latest_semver_tag")
+    @patch("fetch_versions.get_latest_version_tag")
+    @patch("fetch_versions.fetch_tags")
+    @patch("fetch_versions.fetch_repos")
+    def test_vinteger_takes_precedence(
+        self,
+        mock_fetch_repos,
+        mock_fetch_tags,
+        mock_get_tag,
+        mock_get_semver,
+        mock_versions_file,
+        mock_versions_sha_file,
+        mock_load_unversioned,
+        mock_save_unversioned,
+    ):
+        """Test that vINTEGER tag is preferred over semver when both exist."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            versions_file = tmppath / "versions.txt"
+            versions_sha_file = tmppath / "versions-sha.txt"
+            mock_versions_file.__str__ = lambda self: str(versions_file)
+            mock_versions_file.__fspath__ = lambda self: str(versions_file)
+            mock_versions_sha_file.__str__ = lambda self: str(versions_sha_file)
+            mock_versions_sha_file.__fspath__ = lambda self: str(versions_sha_file)
+
+            # Mock fetch_repos
+            mock_fetch_repos.return_value = [{"name": "setup-node"}]
+
+            # Mock fetch_tags - has both vINTEGER and semver
+            mock_fetch_tags.return_value = [
+                ("v1", "sha1"),
+                ("v1.0.0", "sha1"),
+                ("v2", "sha2"),
+                ("v2.1.0", "sha2"),
+                ("v3", "sha3"),
+                ("v3.5.2", "sha3"),
+            ]
+
+            # Both types available
+            mock_get_tag.return_value = "v3"
+            mock_get_semver.return_value = ("v3.5.2", "sha3")
+
+            # Set additional repos to empty list
+            with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
+                # Patch open() to write to our temp files
+                original_open = open
+
+                def patched_open(path, *args, **kwargs):
+                    if "versions.txt" in str(path):
+                        return original_open(versions_file, *args, **kwargs)
+                    if "versions-sha.txt" in str(path):
+                        return original_open(versions_sha_file, *args, **kwargs)
+                    return original_open(path, *args, **kwargs)
+
+                with patch("builtins.open", side_effect=patched_open):
+                    fetch_versions.main()
+
+            # Verify vINTEGER tag was used (not semver)
+            content = versions_file.read_text()
+            lines = content.strip().split("\n")
+
+            self.assertEqual(len(lines), 1)
+            self.assertEqual(lines[0], "actions/setup-node@v3")
+
+    @patch("fetch_versions.save_unversioned")
+    @patch("fetch_versions.load_unversioned")
+    @patch("fetch_versions.VERSIONS_SHA_FILE")
+    @patch("fetch_versions.VERSIONS_FILE")
+    @patch("fetch_versions.get_latest_semver_tag")
+    @patch("fetch_versions.get_latest_version_tag")
+    @patch("fetch_versions.fetch_tags")
+    @patch("fetch_versions.fetch_repos")
+    def test_no_version_tags_marks_unversioned(
+        self,
+        mock_fetch_repos,
+        mock_fetch_tags,
+        mock_get_tag,
+        mock_get_semver,
+        mock_versions_file,
+        mock_versions_sha_file,
+        mock_load_unversioned,
+        mock_save_unversioned,
+    ):
+        """Test that repos with no version tags are still marked as unversioned."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            versions_file = tmppath / "versions.txt"
+            versions_sha_file = tmppath / "versions-sha.txt"
+            mock_versions_file.__str__ = lambda self: str(versions_file)
+            mock_versions_file.__fspath__ = lambda self: str(versions_file)
+            mock_versions_sha_file.__str__ = lambda self: str(versions_sha_file)
+            mock_versions_sha_file.__fspath__ = lambda self: str(versions_sha_file)
+
+            # Mock fetch_repos
+            mock_fetch_repos.return_value = [{"name": "no-tags-repo"}]
+
+            # No tags at all
+            mock_fetch_tags.return_value = []
+            mock_get_tag.return_value = None
+            mock_get_semver.return_value = None
+
+            # Set additional repos to empty list
+            with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
+                # Patch open() to write to our temp files
+                original_open = open
+
+                def patched_open(path, *args, **kwargs):
+                    if "versions.txt" in str(path):
+                        return original_open(versions_file, *args, **kwargs)
+                    if "versions-sha.txt" in str(path):
+                        return original_open(versions_sha_file, *args, **kwargs)
+                    return original_open(path, *args, **kwargs)
+
+                with patch("builtins.open", side_effect=patched_open):
+                    fetch_versions.main()
+
+            # Verify repo was marked as unversioned
+            saved_unversioned = mock_save_unversioned.call_args[0][0]
+            self.assertIn("actions/no-tags-repo", saved_unversioned)
+
+            # Verify no versions were written
+            content = versions_file.read_text()
+            self.assertEqual(content.strip(), "")
+
+
+class TestSkipRepos(unittest.TestCase):
+    """Tests for skipping repos from ORG_NAME."""
+
+    @patch("fetch_versions.save_unversioned")
+    @patch("fetch_versions.load_unversioned")
+    @patch("fetch_versions.VERSIONS_SHA_FILE")
+    @patch("fetch_versions.VERSIONS_FILE")
+    @patch("fetch_versions.get_latest_semver_tag")
+    @patch("fetch_versions.get_latest_version_tag")
+    @patch("fetch_versions.fetch_tags")
+    @patch("fetch_versions.fetch_repos")
+    def test_skip_repos_filters_out_specified_repos(
+        self,
+        mock_fetch_repos,
+        mock_fetch_tags,
+        mock_get_tag,
+        mock_get_semver,
+        mock_versions_file,
+        mock_versions_sha_file,
+        mock_load_unversioned,
+        mock_save_unversioned,
+    ):
+        """Test that repos in SKIP_REPOS are not processed."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            versions_file = tmppath / "versions.txt"
+            versions_sha_file = tmppath / "versions-sha.txt"
+            mock_versions_file.__str__ = lambda self: str(versions_file)
+            mock_versions_file.__fspath__ = lambda self: str(versions_file)
+            mock_versions_sha_file.__str__ = lambda self: str(versions_sha_file)
+            mock_versions_sha_file.__fspath__ = lambda self: str(versions_sha_file)
+
+            # Mock fetch_repos to return multiple repos
+            mock_fetch_repos.return_value = [
+                {"name": "setup-python"},
+                {"name": "setup-node"},
+                {"name": "skip-me"},
+                {"name": "also-skip"},
+            ]
+
+            # Mock fetch_tags and version tags
+            mock_fetch_tags.return_value = [("v1", "sha1"), ("v5", "sha5")]
+            mock_get_tag.return_value = "v5"
+            mock_get_semver.return_value = None
+
+            # Set SKIP_REPOS to filter out some repos
+            with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
+                with patch.object(
+                    fetch_versions, "SKIP_REPOS", ["skip-me", "also-skip"]
+                ):
+                    # Patch open() to write to our temp files
+                    original_open = open
+
+                    def patched_open(path, *args, **kwargs):
+                        if "versions.txt" in str(path):
+                            return original_open(versions_file, *args, **kwargs)
+                        if "versions-sha.txt" in str(path):
+                            return original_open(versions_sha_file, *args, **kwargs)
+                        return original_open(path, *args, **kwargs)
+
+                    with patch("builtins.open", side_effect=patched_open):
+                        fetch_versions.main()
+
+            # Verify only non-skipped repos are in versions.txt
+            content = versions_file.read_text()
+            lines = content.strip().split("\n")
+
+            self.assertEqual(len(lines), 2)
+            self.assertIn("actions/setup-python@v5", lines)
+            self.assertIn("actions/setup-node@v5", lines)
+            self.assertNotIn("actions/skip-me", content)
+            self.assertNotIn("actions/also-skip", content)
+
+            # Verify skipped repos were not cached as unversioned
+            saved_unversioned = mock_save_unversioned.call_args[0][0]
+            self.assertNotIn("actions/skip-me", saved_unversioned)
+            self.assertNotIn("actions/also-skip", saved_unversioned)
 
 
 class TestAdditionalRepos(unittest.TestCase):
