@@ -89,7 +89,7 @@ taiki-e/install-action@v2
 
 ```
 actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
-actions/ai-inference@334892bb203895caaed82ec52d23c1ed9385151e # v2.0.4
+actions/ai-inference@a6101c89c6feaecc585efdd8d461f18bb7896f20 # v2.0.5
 actions/attest@7667f588f2f73a90cea6c7ac70e78266c4f76616 # v3.1.0
 actions/attest-build-provenance@00014ed6ed5efc5b1ab7f7f34a39eb55d41aa4f8 # v3.1.0
 actions/attest-sbom@4651f806c01d8637787e274ac3bdf724ef169f34 # v3.0.0
