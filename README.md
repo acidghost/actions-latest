@@ -79,7 +79,7 @@ docker/login-action@v3
 docker/setup-buildx-action@v3
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v6
-ruby/setup-ruby@v1.286.0
+ruby/setup-ruby@v1.287.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -120,14 +120,14 @@ actions/stale@997185467fa4f803885201cee163a9f38240193d # v10.1.1
 actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
 actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
-astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7.2.1
 dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2.5.0
 docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
 docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
 docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6.4.0
-ruby/setup-ruby@90be1154f987f4dc0fe0dd0feedac9e473aa4ba8 # v1.286.0
-taiki-e/install-action@a362280ea100b5bb920cf9040c038ce9a50c7943 # v2.67.16
+ruby/setup-ruby@8d27f39a5e7ad39aebbcbd1324f7af020229645c # v1.287.0
+taiki-e/install-action@29feb09ac22f4fde4175fe7b5c3548952234f69a # v2.67.17
 ```
 <!-- VERSIONS_SHA_END -->

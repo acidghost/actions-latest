@@ -39,5 +39,5 @@ docker/login-action@v3
 docker/setup-buildx-action@v3
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v6
-ruby/setup-ruby@v1.286.0
+ruby/setup-ruby@v1.287.0
 taiki-e/install-action@v2
