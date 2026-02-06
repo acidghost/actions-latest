@@ -28,6 +28,7 @@ actions/runner-images-PK1
 actions/runner-images-check
 actions/runner-images-sangeeth
 actions/runner-images-temp
+actions/scaleset
 actions/starter-workflows
 actions/toolkit
 actions/typescript-action
