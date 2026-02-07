@@ -89,7 +89,7 @@ taiki-e/install-action@v2
 
 ```
 actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
-actions/ai-inference@a6101c89c6feaecc585efdd8d461f18bb7896f20 # v2.0.5
+actions/ai-inference@a380166897b5408b8fb7dddd148142794cb5624a # v2.0.6
 actions/attest@e59cbc1ad1ac2d59339667419eb8cdde6eb61e3d # v3.2.0
 actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
 actions/attest-sbom@4651f806c01d8637787e274ac3bdf724ef169f34 # v3.0.0
@@ -120,7 +120,7 @@ actions/stale@997185467fa4f803885201cee163a9f38240193d # v10.1.1
 actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
 actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
-astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7.2.1
+astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
 dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2.5.0
 docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
 docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
@@ -128,6 +128,6 @@ docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6.4.0
 ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
-taiki-e/install-action@870266878ed54ea9ceb25502c53e42aa939585a6 # v2.67.22
+taiki-e/install-action@4573997e3b6c0fbc22f7acab193b00a8a3ca817d # v2.67.24
 ```
 <!-- VERSIONS_SHA_END -->
