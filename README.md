@@ -116,7 +116,7 @@ actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
 actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
 actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
 actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1.1.3
-actions/stale@997185467fa4f803885201cee163a9f38240193d # v10.1.1
+actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
 actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
 actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
@@ -128,6 +128,6 @@ docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6.4.0
 ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
-taiki-e/install-action@288875dd3d64326724fa6d9593062d9f8ba0b131 # v2.67.30
+taiki-e/install-action@f8d25fb8a2df08dcd3cead89780d572767b8655f # v2.68.0
 ```
 <!-- VERSIONS_SHA_END -->
