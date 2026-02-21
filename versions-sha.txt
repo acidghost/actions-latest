@@ -38,4 +38,4 @@ docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6.4.0
 ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
-taiki-e/install-action@2723513a70062521fb56e5df87a04967751efd2f # v2.68.4
+taiki-e/install-action@470679bc3a1580072dac4e67535d1aa3a3dcdf51 # v2.68.6
