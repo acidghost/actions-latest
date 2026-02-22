@@ -76,7 +76,9 @@ astral-sh/setup-uv@v7
 dependabot/fetch-metadata@v2
 docker/build-push-action@v6
 docker/login-action@v3
+docker/metadata-action@v5
 docker/setup-buildx-action@v3
+docker/setup-qemu-action@v3
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 ruby/setup-ruby@v1.288.0
@@ -124,7 +126,9 @@ astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
 dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2.5.0
 docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
 docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
 docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
