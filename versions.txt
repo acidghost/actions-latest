@@ -1,6 +1,6 @@
 actions/add-to-project@v1.0.2
 actions/ai-inference@v2
-actions/attest@v3
+actions/attest@v4
 actions/attest-build-provenance@v3
 actions/attest-sbom@v3
 actions/cache@v5

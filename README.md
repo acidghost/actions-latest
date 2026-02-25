@@ -40,7 +40,7 @@ This is a personal fork of the [actions-latest](https://github.com/simonw/action
 ```
 actions/add-to-project@v1.0.2
 actions/ai-inference@v2
-actions/attest@v3
+actions/attest@v4
 actions/attest-build-provenance@v3
 actions/attest-sbom@v3
 actions/cache@v5
@@ -91,8 +91,8 @@ taiki-e/install-action@v2
 
 ```
 actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
-actions/ai-inference@a380166897b5408b8fb7dddd148142794cb5624a # v2.0.6
-actions/attest@e59cbc1ad1ac2d59339667419eb8cdde6eb61e3d # v3.2.0
+actions/ai-inference@e09e65981758de8b2fdab13c2bfb7c7d5493b0b6 # v2.0.7
+actions/attest@c32b4b8b198b65d0bd9d63490e847ff7b53989d4 # v4.0.0
 actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
 actions/attest-sbom@4651f806c01d8637787e274ac3bdf724ef169f34 # v3.0.0
 actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
@@ -132,6 +132,6 @@ docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
-taiki-e/install-action@cfdb446e391c69574ebc316dfb7d7849ec12b940 # v2.68.8
+taiki-e/install-action@7f491e26f71f4ec2e6902c7c95c73043f209ab79 # v2.68.9
 ```
 <!-- VERSIONS_SHA_END -->
