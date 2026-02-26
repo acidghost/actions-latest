@@ -41,8 +41,8 @@ This is a personal fork of the [actions-latest](https://github.com/simonw/action
 actions/add-to-project@v1.0.2
 actions/ai-inference@v2
 actions/attest@v4
-actions/attest-build-provenance@v3
-actions/attest-sbom@v3
+actions/attest-build-provenance@v4
+actions/attest-sbom@v4
 actions/cache@v5
 actions/checkout@v6
 actions/configure-pages@v5
@@ -93,8 +93,8 @@ taiki-e/install-action@v2
 actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
 actions/ai-inference@e09e65981758de8b2fdab13c2bfb7c7d5493b0b6 # v2.0.7
 actions/attest@c32b4b8b198b65d0bd9d63490e847ff7b53989d4 # v4.0.0
-actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
-actions/attest-sbom@4651f806c01d8637787e274ac3bdf724ef169f34 # v3.0.0
+actions/attest-build-provenance@e4d4f7c39adfa4c260fb5c147f0622000aa14b99 # v4.0.0
+actions/attest-sbom@07e74fc4e78d1aad915e867f9a094073a9f71527 # v4.0.0
 actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
 actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
@@ -112,7 +112,7 @@ actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
 actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
 actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
-actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
+actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
 actions/setup-haskell@048c29979717135f04282c42c2186bb5945b2d8f # v1.1.4
 actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
 actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
@@ -132,6 +132,6 @@ docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
-taiki-e/install-action@7f491e26f71f4ec2e6902c7c95c73043f209ab79 # v2.68.9
+taiki-e/install-action@d9c7e4de96b8ff27364cd0b5890e9280b99adbb3 # v2.68.11
 ```
 <!-- VERSIONS_SHA_END -->
