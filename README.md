@@ -51,7 +51,7 @@ actions/create-release@v1
 actions/delete-package-versions@v5
 actions/dependency-review-action@v3
 actions/deploy-pages@v4
-actions/download-artifact@v7
+actions/download-artifact@v8
 actions/first-interaction@v3
 actions/github-script@v8
 actions/go-dependency-submission@v2
@@ -69,7 +69,7 @@ actions/setup-node@v6
 actions/setup-python@v6
 actions/setup-ruby@v1
 actions/stale@v10
-actions/upload-artifact@v6
+actions/upload-artifact@v7
 actions/upload-pages-artifact@v4
 actions/upload-release-asset@v1
 astral-sh/setup-uv@v7
@@ -92,8 +92,8 @@ taiki-e/install-action@v2
 ```
 actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
 actions/ai-inference@e09e65981758de8b2fdab13c2bfb7c7d5493b0b6 # v2.0.7
-actions/attest@c32b4b8b198b65d0bd9d63490e847ff7b53989d4 # v4.0.0
-actions/attest-build-provenance@e4d4f7c39adfa4c260fb5c147f0622000aa14b99 # v4.0.0
+actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
+actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
 actions/attest-sbom@07e74fc4e78d1aad915e867f9a094073a9f71527 # v4.0.0
 actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
 actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -103,7 +103,7 @@ actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
 actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
 actions/dependency-review-action@05fe4576374b728f0c523d6a13d64c25081e0803 # v4.8.3
 actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
-actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
 actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.1.0
 actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
 actions/go-dependency-submission@f35d5c9af13ce9cc32f7930b171e315e878f6921 # v2.0.3
@@ -119,7 +119,7 @@ actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
 actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
 actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1.1.3
 actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
-actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
 actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
 astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
@@ -132,6 +132,6 @@ docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
-taiki-e/install-action@d9c7e4de96b8ff27364cd0b5890e9280b99adbb3 # v2.68.11
+taiki-e/install-action@aba36d755ec7ca22d38b12111787c26115943952 # v2.68.12
 ```
 <!-- VERSIONS_SHA_END -->
