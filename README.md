@@ -74,10 +74,10 @@ actions/upload-pages-artifact@v4
 actions/upload-release-asset@v1
 astral-sh/setup-uv@v7
 dependabot/fetch-metadata@v2
-docker/build-push-action@v6
+docker/build-push-action@v7
 docker/login-action@v4
-docker/metadata-action@v5
-docker/setup-buildx-action@v3
+docker/metadata-action@v6
+docker/setup-buildx-action@v4
 docker/setup-qemu-action@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
@@ -124,10 +124,10 @@ actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
 astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098 # v7.3.1
 dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2.5.0
-docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
 docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
-docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
-docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
+docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
