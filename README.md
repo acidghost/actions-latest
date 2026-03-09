@@ -132,6 +132,6 @@ docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 ruby/setup-ruby@6ca151fd1bfcfd6fe0c4eb6837eb0584d0134a0c # v1.290.0
-taiki-e/install-action@5faf876256ccfc7ba64a4f87314c3457cc374b98 # v2.68.22
+taiki-e/install-action@a37010ded18ff788be4440302bd6830b1ae50d8b # v2.68.25
 ```
 <!-- VERSIONS_SHA_END -->
