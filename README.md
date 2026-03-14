@@ -46,7 +46,7 @@ actions/attest-sbom@v4
 actions/cache@v5
 actions/checkout@v6
 actions/configure-pages@v5
-actions/create-github-app-token@v2
+actions/create-github-app-token@v3
 actions/create-release@v1
 actions/delete-package-versions@v5
 actions/dependency-review-action@v3
@@ -99,7 +99,7 @@ actions/attest-sbom@07e74fc4e78d1aad915e867f9a094073a9f71527 # v4.0.0
 actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
 actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
-actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
 actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
 actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
 actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
