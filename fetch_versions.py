@@ -39,6 +39,7 @@ ADDITIONAL_REPOS: list[str] = [
     "docker/setup-qemu-action",
     "golangci/golangci-lint-action",
     "goreleaser/goreleaser-action",
+    "jdx/mise-action",
     "ruby/setup-ruby",
     "taiki-e/install-action",
 ]
