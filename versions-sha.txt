@@ -1,5 +1,5 @@
 actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
-actions/ai-inference@e09e65981758de8b2fdab13c2bfb7c7d5493b0b6 # v2.0.7
+actions/ai-inference@af6ad2c4ac4edf01884054fc3a6caa6d2567c13a # v2.0.8
 actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
 actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
 actions/attest-sbom@07e74fc4e78d1aad915e867f9a094073a9f71527 # v4.0.0
@@ -18,7 +18,7 @@ actions/go-dependency-submission@f35d5c9af13ce9cc32f7930b171e315e878f6921 # v2.0
 actions/javascript-action@4be183afbd08ddadedcf09f17e8e112326894107 # v1.0.1
 actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
 actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
-actions/setup-copilot@f070e091bc5458b53f55f778d647c231840dff8b # v0.0.4
+actions/setup-copilot@01f2415f3de9e622b1cc969773f108741021a606 # v0.0.5
 actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
 actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
@@ -31,7 +31,7 @@ actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
 actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
 actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
-astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82 # v7.5.0
+astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
 dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2.5.0
 docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
 docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
@@ -41,5 +41,5 @@ docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
-ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
-taiki-e/install-action@cbb1dcaa26e1459e2876c39f61c1e22a1258aac5 # v2.68.33
+ruby/setup-ruby@c984c1a20bb35a1cbda04477c816cea024418be9 # v1.294.0
+taiki-e/install-action@de6bbd1333b8f331563d54a051e542c7dfef81c3 # v2.68.34
