@@ -18,47 +18,31 @@ This is a personal fork of the [actions-latest](https://github.com/simonw/action
 ### Running Tests
 
 ```bash
-python -m unittest test_fetch_versions -v
+python3 -m unittest test_fetch_versions -v
 ```
 
 ### Running the Main Script
 
 ```bash
-python fetch_versions.py
+python3 fetch_versions.py
 ```
 
 To avoid GitHub API rate limits locally, set a `GITHUB_TOKEN` environment variable:
 
 ```bash
 export GITHUB_TOKEN=ghp_your_token_here
-python fetch_versions.py
+python3 fetch_versions.py
+# or if gh is available
+GITHUB_TOKEN=$(gh auth token) python3 fetch_versions.py
 ```
-
-### CI Workflow
-
-The GitHub Actions workflow runs automatically daily at 4:51 UTC and can be manually triggered via `workflow_dispatch`. It:
-
-1. Runs tests
-2. Executes `fetch_versions.py` (with `secrets.GITHUB_TOKEN` for authenticated API requests)
-3. Commits and pushes changes to `versions.txt`, `versions-sha.txt`, and `unversioned.txt`
 
 ## Code Organization
 
 ### Key Files
 
-- **`fetch_versions.py`** - Main script (276 lines)
-  - `fetch_repos()` - Fetches all repos for an org with pagination
-  - `fetch_tags()` - Fetches all tags for a repo with pagination
-  - `get_latest_version_tag()` - Extracts latest `^v(\d+)$` pattern tag
-  - `get_latest_semver_tag()` - Extracts latest semantic version `^v(\d+)\.(\d+)\.(\d+)$` pattern
-  - `update_readme()` - Updates README.md between marker comments
-  - `load_unversioned()` / `save_unversioned()` - Cache management
-  - `main()` - Orchestrates the entire process
+- **`fetch_versions.py`** - Main script
 
-- **`test_fetch_versions.py`** - Unit tests (372 lines)
-  - Uses standard Python `unittest` framework
-  - Tests each function independently with mocked subprocess calls
-  - Integration tests for the full `main()` function
+- **`test_fetch_versions.py`** - Unit tests
 
 - **`versions.txt`** - Output file (auto-generated)
   - Format: one line per repo: `org/repo@tag`
@@ -87,31 +71,11 @@ The GitHub Actions workflow runs automatically daily at 4:51 UTC and can be manu
 - Python 3.12+ style: `set[str]`, `list[dict]`, `str | None`
 - All functions have type hints for parameters and return types
 
-### File Operations
-
-- Use `pathlib.Path` for all file operations
-- `Path(__file__).parent.resolve()` for script directory
-- `Path.read_text()` / `Path.write_text()` for file I/O
-
 ### HTTP Requests
 
 - **No external HTTP libraries** (no `requests`, `httpx`, etc.)
 - Uses `subprocess.run` with `curl` to call GitHub API
-- Accept header: `application/vnd.github+json`
-- Base URL: `https://api.github.com`
 - Optional Authorization header with `GITHUB_TOKEN` environment variable (higher rate limits)
-
-### Version Tag Pattern
-
-- Only matches `^v(\d+)$` pattern (e.g., `v1`, `v2`, `v10`)
-- Does NOT match: `v1.0`, `v1.0.0`, `v1-beta`, `release-1`
-- Sorting is numeric, not lexicographic (v10 > v9)
-
-### Pagination
-
-- GitHub API uses `per_page=100` (max limit)
-- Loop until empty response or fewer than `per_page` items returned
-- Applied to both `fetch_repos()` and `fetch_tags()`
 
 ### Caching Strategy
 
@@ -126,95 +90,6 @@ The GitHub Actions workflow runs automatically daily at 4:51 UTC and can be manu
 - Pattern: `re.escape(README_START_MARKER) + r".*?" + re.escape(README_END_MARKER)` with `re.DOTALL`
 - If markers don't exist, appends to end of README
 
-### Error Handling
-
-- API errors (e.g., rate limiting) detected by checking for `"message"` key in response
-- Errors printed to stderr, processing continues for other repos
-- Subprocess calls use `check=True` to raise exceptions on non-zero exit codes
-
-## Testing Patterns
-
-### Test Structure
-
-```python
-class TestFunctionName(unittest.TestCase):
-    def test_specific_behavior(self):
-        # Arrange
-        mock_input = [...]
-
-        # Act
-        result = function_under_test(mock_input)
-
-        # Assert
-        self.assertEqual(result, expected)
-```
-
-### Mocking Subprocess Calls
-
-```python
-@patch("fetch_versions.subprocess.run")
-def test_fetch_repos(self, mock_run):
-    mock_run.return_value = MagicMock(
-        stdout=json.dumps([...]),
-        returncode=0,
-    )
-    # Call function and assert
-```
-
-### Temporary Files in Tests
-
-```python
-with tempfile.TemporaryDirectory() as tmpdir:
-    tmppath = Path(tmpdir)
-    # Create test files and test logic
-```
-
-### Integration Testing
-
-- Use `@patch` decorators for all external dependencies
-- Test full `main()` function with all components mocked
-- Verify file I/O by reading generated files
-
-## Important Gotchas
-
-### Version Tag Matching
-
-- The script only cares about `vINTEGER` tags, not semantic versioning
-- Many repos use `v1.0.0` style tags and will be marked as "unversioned"
-- This is by design - the script targets GitHub Actions' integer-only version scheme
-
-### API Rate Limiting
-
-- GitHub API has rate limits (60 requests/hour for unauthenticated, 5000/hour with token)
-- The script uses caching to minimize API calls on subsequent runs
-- Set `GITHUB_TOKEN` environment variable to avoid hitting limits:
-  - Locally: `export GITHUB_TOKEN=ghp_your_token_here`
-  - GitHub Actions: Automatically uses `secrets.GITHUB_TOKEN`
-
-### No Dependencies
-
-- Project has NO external dependencies
-- Uses only Python standard library
-- No `requirements.txt`, `pyproject.toml`, or `setup.py` files
-
-### CI Commit Behavior
-
-- The workflow commits with message "chore: update versions"
-- Uses github-actions[bot] identity
-- Only commits if there are actual changes (uses `git diff --staged --quiet`)
-
-### README Marker Placement
-
-- Markers must exist in README for updates to work in-place
-- If missing, content is appended to the end of README
-- Markers are: `<!-- VERSIONS_START -->` and `<!-- VERSIONS_END -->`
-
-### Output File Format
-
-- `versions.txt` has a trailing newline
-- Each line ends with a newline
-- Format is strictly: `org/repo@tag` (no variations)
-
 ## Modifying the Codebase
 
 ### Adding New Features
@@ -226,4 +101,4 @@ with tempfile.TemporaryDirectory() as tmpdir:
 
 ### Testing Changes
 
-Always run: `python -m unittest test_fetch_versions -v`
+Always run: `python3 -m unittest test_fetch_versions -v`
