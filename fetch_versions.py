@@ -272,15 +272,19 @@ def get_latest_semver_tag(tags: list[tuple[str, str]]) -> tuple[str, str] | None
     """
     # Filter to semver tags (e.g., v1.2.3, v2.0.0)
     version_pattern = re.compile(r"^v(\d+)\.(\d+)\.(\d+)$")
+    version_major_pattern = re.compile(r"^v(\d+)$")
     version_tags = []
 
     for tag_name, commit_sha in tags:
-        match = version_pattern.match(tag_name.strip())
-        if match:
+        tname = tag_name.strip()
+        if (match := version_pattern.match(tname)):
             major = int(match.group(1))
             minor = int(match.group(2))
             patch = int(match.group(3))
-            version_tags.append(((major, minor, patch), tag_name.strip(), commit_sha))
+            version_tags.append(((major, minor, patch), tname, commit_sha))
+        elif (match := version_major_pattern.match(tname)):
+            major = int(match.group(1))
+            version_tags.append(((major, 0, 0), tname, commit_sha))
 
     if not version_tags:
         return None
