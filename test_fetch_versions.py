@@ -297,7 +297,8 @@ class TestMain(unittest.TestCase):
                 return original_open(path, *args, **kwargs)
 
             with patch("builtins.open", side_effect=patched_open):
-                fetch_versions.main()
+                with patch.object(fetch_versions, "ADDITIONAL_ORGS", []):
+                    fetch_versions.main()
 
             # Verify the versions file was written correctly
             content = versions_file.read_text()
@@ -353,16 +354,17 @@ class TestMain(unittest.TestCase):
 
             # Set additional repos to empty list
             with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
-                # Patch open() to write to our temp file
-                original_open = open
+                with patch.object(fetch_versions, "ADDITIONAL_ORGS", []):
+                    # Patch open() to write to our temp file
+                    original_open = open
 
-                def patched_open(path, *args, **kwargs):
-                    if "versions.txt" in str(path):
-                        return original_open(versions_file, *args, **kwargs)
-                    return original_open(path, *args, **kwargs)
+                    def patched_open(path, *args, **kwargs):
+                        if "versions.txt" in str(path):
+                            return original_open(versions_file, *args, **kwargs)
+                        return original_open(path, *args, **kwargs)
 
-                with patch("builtins.open", side_effect=patched_open):
-                    fetch_versions.main()
+                    with patch("builtins.open", side_effect=patched_open):
+                        fetch_versions.main()
 
             # fetch_tags should only be called once (for setup-python, not cached-no-tags)
             self.assertEqual(mock_fetch_tags.call_count, 1)
@@ -483,18 +485,19 @@ class TestSemverFallback(unittest.TestCase):
 
             # Set additional repos to empty list
             with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
-                # Patch open() to write to our temp files
-                original_open = open
+                with patch.object(fetch_versions, "ADDITIONAL_ORGS", []):
+                    # Patch open() to write to our temp files
+                    original_open = open
 
-                def patched_open(path, *args, **kwargs):
-                    if "versions.txt" in str(path):
-                        return original_open(versions_file, *args, **kwargs)
-                    if "versions-sha.txt" in str(path):
-                        return original_open(versions_sha_file, *args, **kwargs)
-                    return original_open(path, *args, **kwargs)
+                    def patched_open(path, *args, **kwargs):
+                        if "versions.txt" in str(path):
+                            return original_open(versions_file, *args, **kwargs)
+                        if "versions-sha.txt" in str(path):
+                            return original_open(versions_sha_file, *args, **kwargs)
+                        return original_open(path, *args, **kwargs)
 
-                with patch("builtins.open", side_effect=patched_open):
-                    fetch_versions.main()
+                    with patch("builtins.open", side_effect=patched_open):
+                        fetch_versions.main()
 
             # Verify the semver tag was used as fallback
             content = versions_file.read_text()
@@ -559,18 +562,19 @@ class TestSemverFallback(unittest.TestCase):
 
             # Set additional repos to empty list
             with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
-                # Patch open() to write to our temp files
-                original_open = open
+                with patch.object(fetch_versions, "ADDITIONAL_ORGS", []):
+                    # Patch open() to write to our temp files
+                    original_open = open
 
-                def patched_open(path, *args, **kwargs):
-                    if "versions.txt" in str(path):
-                        return original_open(versions_file, *args, **kwargs)
-                    if "versions-sha.txt" in str(path):
-                        return original_open(versions_sha_file, *args, **kwargs)
-                    return original_open(path, *args, **kwargs)
+                    def patched_open(path, *args, **kwargs):
+                        if "versions.txt" in str(path):
+                            return original_open(versions_file, *args, **kwargs)
+                        if "versions-sha.txt" in str(path):
+                            return original_open(versions_sha_file, *args, **kwargs)
+                        return original_open(path, *args, **kwargs)
 
-                with patch("builtins.open", side_effect=patched_open):
-                    fetch_versions.main()
+                    with patch("builtins.open", side_effect=patched_open):
+                        fetch_versions.main()
 
             # Verify vINTEGER tag was used (not semver)
             content = versions_file.read_text()
@@ -687,21 +691,22 @@ class TestSkipRepos(unittest.TestCase):
 
             # Set SKIP_REPOS to filter out some repos
             with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
-                with patch.object(
-                    fetch_versions, "SKIP_REPOS", ["skip-me", "also-skip"]
-                ):
-                    # Patch open() to write to our temp files
-                    original_open = open
+                with patch.object(fetch_versions, "ADDITIONAL_ORGS", []):
+                    with patch.object(
+                        fetch_versions, "SKIP_REPOS", ["skip-me", "also-skip"]
+                    ):
+                        # Patch open() to write to our temp files
+                        original_open = open
 
-                    def patched_open(path, *args, **kwargs):
-                        if "versions.txt" in str(path):
-                            return original_open(versions_file, *args, **kwargs)
-                        if "versions-sha.txt" in str(path):
-                            return original_open(versions_sha_file, *args, **kwargs)
-                        return original_open(path, *args, **kwargs)
+                        def patched_open(path, *args, **kwargs):
+                            if "versions.txt" in str(path):
+                                return original_open(versions_file, *args, **kwargs)
+                            if "versions-sha.txt" in str(path):
+                                return original_open(versions_sha_file, *args, **kwargs)
+                            return original_open(path, *args, **kwargs)
 
-                    with patch("builtins.open", side_effect=patched_open):
-                        fetch_versions.main()
+                        with patch("builtins.open", side_effect=patched_open):
+                            fetch_versions.main()
 
             # Verify only non-skipped repos are in versions.txt
             content = versions_file.read_text()
@@ -800,6 +805,416 @@ class TestAdditionalRepos(unittest.TestCase):
             self.assertEqual(len(lines), 2)
             self.assertIn("actions/setup-python@v5", lines)
             self.assertIn("other/some-action@v3", lines)
+
+
+class TestOrgFileHelpers(unittest.TestCase):
+    """Tests for org-specific file helper functions."""
+
+    def test_get_org_versions_file(self):
+        """Test getting org-specific versions file path."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with patch.object(fetch_versions, "SCRIPT_DIR", Path(tmpdir)):
+                result = fetch_versions.get_org_versions_file("aws-actions")
+                self.assertEqual(result.name, "aws-actions-versions.txt")
+                self.assertEqual(result.parent, Path(tmpdir))
+
+    def test_get_org_versions_sha_file(self):
+        """Test getting org-specific SHA-pinned versions file path."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with patch.object(fetch_versions, "SCRIPT_DIR", Path(tmpdir)):
+                result = fetch_versions.get_org_versions_sha_file("docker")
+                self.assertEqual(result.name, "docker-versions-sha.txt")
+                self.assertEqual(result.parent, Path(tmpdir))
+
+    def test_get_org_unversioned_file(self):
+        """Test getting org-specific unversioned cache file path."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with patch.object(fetch_versions, "SCRIPT_DIR", Path(tmpdir)):
+                result = fetch_versions.get_org_unversioned_file("golangci")
+                self.assertEqual(result.name, "golangci-unversioned.txt")
+                self.assertEqual(result.parent, Path(tmpdir))
+
+    def test_get_org_readme_markers(self):
+        """Test getting org-specific README markers."""
+        start, end = fetch_versions.get_org_readme_markers("aws-actions")
+        self.assertEqual(start, "<!-- AWS-ACTIONS_VERSIONS_START -->")
+        self.assertEqual(end, "<!-- AWS-ACTIONS_VERSIONS_END -->")
+
+    def test_get_org_readme_sha_markers(self):
+        """Test getting org-specific SHA README markers."""
+        start, end = fetch_versions.get_org_readme_sha_markers("docker")
+        self.assertEqual(start, "<!-- DOCKER_VERSIONS_SHA_START -->")
+        self.assertEqual(end, "<!-- DOCKER_VERSIONS_SHA_END -->")
+
+
+class TestOrgUnversionedCache(unittest.TestCase):
+    """Tests for org-specific unversioned repos caching functions."""
+
+    def test_load_org_unversioned_file_not_exists(self):
+        """Test loading when org-specific unversioned file doesn't exist."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with patch.object(fetch_versions, "SCRIPT_DIR", Path(tmpdir)):
+                result = fetch_versions.load_org_unversioned("aws-actions")
+                self.assertEqual(result, set())
+
+    def test_load_org_unversioned_with_repos(self):
+        """Test loading org-specific unversioned repos from file."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with patch.object(fetch_versions, "SCRIPT_DIR", Path(tmpdir)):
+                unversioned_file = Path(tmpdir) / "aws-actions-unversioned.txt"
+                unversioned_file.write_text("aws-actions/repo1\naws-actions/repo2\n")
+
+                result = fetch_versions.load_org_unversioned("aws-actions")
+                self.assertEqual(result, {"aws-actions/repo1", "aws-actions/repo2"})
+
+    def test_save_org_unversioned(self):
+        """Test saving org-specific unversioned repos to file."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with patch.object(fetch_versions, "SCRIPT_DIR", Path(tmpdir)):
+                fetch_versions.save_org_unversioned(
+                    "docker", {"docker/repo3", "docker/repo1", "docker/repo2"}
+                )
+
+                unversioned_file = Path(tmpdir) / "docker-unversioned.txt"
+                content = unversioned_file.read_text()
+                lines = content.strip().split("\n")
+                # Should be sorted alphabetically
+                self.assertEqual(
+                    lines, ["docker/repo1", "docker/repo2", "docker/repo3"]
+                )
+
+
+class TestOrgReadmeUpdates(unittest.TestCase):
+    """Tests for org-specific README update functions."""
+
+    @patch("fetch_versions.README_FILE")
+    def test_update_readme_for_org_new_section(self, mock_readme_file):
+        """Test updating README with new org section (markers don't exist)."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            readme_file = tmppath / "README.md"
+            mock_readme_file.__str__ = lambda self: str(readme_file)
+            mock_readme_file.__fspath__ = lambda self: str(readme_file)
+
+            # Create initial README
+            readme_file.write_text("# My README\n\nSome content\n")
+
+            with patch.object(fetch_versions, "README_FILE", readme_file):
+                fetch_versions.update_readme_for_org(
+                    "aws-actions", "aws-actions/configure-aws-credentials@v4\n"
+                )
+
+            content = readme_file.read_text()
+            self.assertIn("<!-- AWS-ACTIONS_VERSIONS_START -->", content)
+            self.assertIn("<!-- AWS-ACTIONS_VERSIONS_END -->", content)
+            self.assertIn("<details>", content)
+            self.assertIn("<summary>aws-actions</summary>", content)
+            self.assertIn("## aws-actions actions", content)
+            self.assertIn("aws-actions/configure-aws-credentials@v4", content)
+
+    @patch("fetch_versions.README_FILE")
+    def test_update_readme_for_org_existing_section(self, mock_readme_file):
+        """Test updating README when org section already exists."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            readme_file = tmppath / "README.md"
+            mock_readme_file.__str__ = lambda self: str(readme_file)
+            mock_readme_file.__fspath__ = lambda self: str(readme_file)
+
+            # Create README with existing org section
+            initial_content = """# My README
+
+<!-- AWS-ACTIONS_VERSIONS_START -->
+<details>
+<summary>aws-actions</summary>
+
+## aws-actions actions
+
+```
+aws-actions/old@v1
+```
+
+</details>
+<!-- AWS-ACTIONS_VERSIONS_END -->
+"""
+            readme_file.write_text(initial_content)
+
+            with patch.object(fetch_versions, "README_FILE", readme_file):
+                fetch_versions.update_readme_for_org(
+                    "aws-actions", "aws-actions/new@v2\n"
+                )
+
+            content = readme_file.read_text()
+            # Should have replaced the old content
+            self.assertNotIn("aws-actions/old@v1", content)
+            self.assertIn("aws-actions/new@v2", content)
+            # Should only have one set of markers
+            self.assertEqual(content.count("<!-- AWS-ACTIONS_VERSIONS_START -->"), 1)
+            self.assertEqual(content.count("<!-- AWS-ACTIONS_VERSIONS_END -->"), 1)
+
+    @patch("fetch_versions.README_FILE")
+    def test_update_readme_sha_for_org_new_section(self, mock_readme_file):
+        """Test updating README with new org SHA section (markers don't exist)."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            readme_file = tmppath / "README.md"
+            mock_readme_file.__str__ = lambda self: str(readme_file)
+            mock_readme_file.__fspath__ = lambda self: str(readme_file)
+
+            # Create initial README
+            readme_file.write_text("# My README\n\nSome content\n")
+
+            with patch.object(fetch_versions, "README_FILE", readme_file):
+                fetch_versions.update_readme_sha_for_org(
+                    "docker", "docker/login-action@abc123 # v4.0.0\n"
+                )
+
+            content = readme_file.read_text()
+            self.assertIn("<!-- DOCKER_VERSIONS_SHA_START -->", content)
+            self.assertIn("<!-- DOCKER_VERSIONS_SHA_END -->", content)
+            self.assertIn("<details>", content)
+            self.assertIn("<summary>docker (SHA-pinned)</summary>", content)
+            self.assertIn("## docker actions (SHA-pinned)", content)
+            self.assertIn("docker/login-action@abc123 # v4.0.0", content)
+
+
+class TestAdditionalOrgs(unittest.TestCase):
+    """Tests for additional orgs functionality in main()."""
+
+    @patch("fetch_versions.save_org_unversioned")
+    @patch("fetch_versions.load_org_unversioned")
+    @patch("fetch_versions.update_readme_sha_for_org")
+    @patch("fetch_versions.update_readme_for_org")
+    @patch("fetch_versions.get_org_versions_sha_file")
+    @patch("fetch_versions.get_org_versions_file")
+    @patch("fetch_versions.save_unversioned")
+    @patch("fetch_versions.load_unversioned")
+    @patch("fetch_versions.VERSIONS_SHA_FILE")
+    @patch("fetch_versions.VERSIONS_FILE")
+    @patch("fetch_versions.get_latest_semver_tag")
+    @patch("fetch_versions.get_latest_version_tag")
+    @patch("fetch_versions.fetch_tags")
+    @patch("fetch_versions.fetch_repos")
+    def test_main_with_additional_orgs(
+        self,
+        mock_fetch_repos,
+        mock_fetch_tags,
+        mock_get_tag,
+        mock_get_semver,
+        mock_versions_file,
+        mock_versions_sha_file,
+        mock_load_unversioned,
+        mock_save_unversioned,
+        mock_get_org_versions_file,
+        mock_get_org_versions_sha_file,
+        mock_update_readme_for_org,
+        mock_update_readme_sha_for_org,
+        mock_load_org_unversioned,
+        mock_save_org_unversioned,
+    ):
+        """Test main function with additional orgs."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            versions_file = tmppath / "versions.txt"
+            versions_sha_file = tmppath / "versions-sha.txt"
+            aws_versions_file = tmppath / "aws-actions-versions.txt"
+            aws_versions_sha_file = tmppath / "aws-actions-versions-sha.txt"
+
+            mock_versions_file.__str__ = lambda self: str(versions_file)
+            mock_versions_file.__fspath__ = lambda self: str(versions_file)
+            mock_versions_sha_file.__str__ = lambda self: str(versions_sha_file)
+            mock_versions_sha_file.__fspath__ = lambda self: str(versions_sha_file)
+            mock_get_org_versions_file.return_value = aws_versions_file
+            mock_get_org_versions_sha_file.return_value = aws_versions_sha_file
+
+            # No cached unversioned repos
+            mock_load_unversioned.return_value = set()
+            mock_load_org_unversioned.return_value = set()
+
+            # Mock fetch_repos to return test data for main org and additional orgs
+            def fetch_repos_side_effect(org):
+                if org == "actions":
+                    return [{"name": "setup-python"}]
+                elif org == "aws-actions":
+                    return [{"name": "configure-aws-credentials"}]
+                return []
+
+            mock_fetch_repos.side_effect = fetch_repos_side_effect
+
+            # Mock fetch_tags to return tags for each repo
+            def fetch_tags_side_effect(org, repo_name):
+                if org == "actions" and repo_name == "setup-python":
+                    return [
+                        ("v1", "sha1"),
+                        ("v2", "sha2"),
+                        ("v5", "sha5"),
+                        ("v5.0.0", "sha5"),
+                    ]
+                elif org == "aws-actions" and repo_name == "configure-aws-credentials":
+                    return [("v1", "sha1"), ("v4", "sha4"), ("v4.0.0", "sha4")]
+                return []
+
+            mock_fetch_tags.side_effect = fetch_tags_side_effect
+
+            # Mock get_latest_version_tag
+            def get_tag_side_effect(tags):
+                tag_names = [tag_name for tag_name, _ in tags]
+                if "v5" in tag_names:
+                    return "v5"
+                elif "v4" in tag_names:
+                    return "v4"
+                return None
+
+            mock_get_tag.side_effect = get_tag_side_effect
+
+            # Mock get_latest_semver_tag to provide semver info
+            def get_semver_side_effect(tags):
+                tag_names = [tag_name for tag_name, _ in tags]
+                if "v5.0.0" in tag_names:
+                    return ("v5.0.0", "sha5")
+                elif "v4.0.0" in tag_names:
+                    return ("v4.0.0", "sha4")
+                return None
+
+            mock_get_semver.side_effect = get_semver_side_effect
+
+            # Set additional orgs and empty additional repos
+            with patch.object(fetch_versions, "ADDITIONAL_ORGS", ["aws-actions"]):
+                with patch.object(fetch_versions, "ADDITIONAL_REPOS", []):
+                    # Patch open() to write to our temp files
+                    original_open = open
+
+                    def patched_open(path, *args, **kwargs):
+                        path_str = str(path)
+                        # Match exact filenames, not substrings
+                        if (
+                            path_str.endswith("/versions.txt")
+                            or path_str == "versions.txt"
+                        ):
+                            return original_open(versions_file, *args, **kwargs)
+                        if (
+                            path_str.endswith("/versions-sha.txt")
+                            or path_str == "versions-sha.txt"
+                        ):
+                            return original_open(versions_sha_file, *args, **kwargs)
+                        if "aws-actions-versions.txt" in path_str:
+                            return original_open(aws_versions_file, *args, **kwargs)
+                        if "aws-actions-versions-sha.txt" in path_str:
+                            return original_open(aws_versions_sha_file, *args, **kwargs)
+                        return original_open(path, *args, **kwargs)
+
+                    with patch("builtins.open", side_effect=patched_open):
+                        fetch_versions.main()
+
+            # Verify the main versions file contains only actions org repos (not from ADDITIONAL_ORGS)
+            content = versions_file.read_text()
+            lines = content.strip().split("\n")
+            self.assertEqual(len(lines), 1)
+            self.assertIn("actions/setup-python@v5", lines)
+            self.assertNotIn("aws-actions/configure-aws-credentials", content)
+
+            # Verify the org-specific versions file contains only aws-actions repos
+            aws_content = aws_versions_file.read_text()
+            aws_lines = aws_content.strip().split("\n")
+            self.assertEqual(len(aws_lines), 1)
+            self.assertEqual(aws_lines[0], "aws-actions/configure-aws-credentials@v4")
+
+            # Verify README update functions were called for aws-actions
+            mock_update_readme_for_org.assert_called_once()
+            self.assertEqual(mock_update_readme_for_org.call_args[0][0], "aws-actions")
+            mock_update_readme_sha_for_org.assert_called_once()
+            self.assertEqual(
+                mock_update_readme_sha_for_org.call_args[0][0], "aws-actions"
+            )
+
+
+class TestIndexJson(unittest.TestCase):
+    """Tests for index.json generation."""
+
+    @patch("fetch_versions.get_base_url")
+    def test_generate_index_json_structure(self, mock_base_url):
+        """Test that index.json has correct structure."""
+        mock_base_url.return_value = "https://example.com/"
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            with patch.object(fetch_versions, "SCRIPT_DIR", tmppath):
+                with patch.object(fetch_versions, "INDEX_FILE", tmppath / "index.json"):
+                    with patch.object(
+                        fetch_versions, "ADDITIONAL_ORGS", ["aws-actions"]
+                    ):
+                        fetch_versions.generate_index_json()
+
+            index_file = tmppath / "index.json"
+            self.assertTrue(index_file.exists())
+
+            with open(index_file) as f:
+                index = json.load(f)
+
+            # Verify structure
+            self.assertIn("bundles", index)
+            self.assertIn("orgs", index)
+            self.assertIn("default", index["bundles"])
+            self.assertIn("aws-actions", index["orgs"])
+
+    @patch("fetch_versions.get_base_url")
+    def test_index_json_urls_correct(self, mock_base_url):
+        """Test that URLs are constructed correctly."""
+        mock_base_url.return_value = "https://acidghost.github.io/actions-latest/"
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+            with patch.object(fetch_versions, "SCRIPT_DIR", tmppath):
+                with patch.object(fetch_versions, "INDEX_FILE", tmppath / "index.json"):
+                    with patch.object(
+                        fetch_versions, "ADDITIONAL_ORGS", ["aws-actions", "docker"]
+                    ):
+                        fetch_versions.generate_index_json()
+
+            index_file = tmppath / "index.json"
+            with open(index_file) as f:
+                index = json.load(f)
+
+            # Verify default bundle URLs
+            self.assertEqual(
+                index["bundles"]["default"]["versions_url"],
+                "https://acidghost.github.io/actions-latest/versions.txt",
+            )
+            self.assertEqual(
+                index["bundles"]["default"]["versions_sha_url"],
+                "https://acidghost.github.io/actions-latest/versions-sha.txt",
+            )
+
+            # Verify org URLs
+            self.assertEqual(
+                index["orgs"]["aws-actions"]["versions_url"],
+                "https://acidghost.github.io/actions-latest/aws-actions-versions.txt",
+            )
+            self.assertEqual(
+                index["orgs"]["docker"]["versions_sha_url"],
+                "https://acidghost.github.io/actions-latest/docker-versions-sha.txt",
+            )
+
+    @patch("fetch_versions.subprocess.run")
+    def test_get_base_url_from_git(self, mock_run):
+        """Test that base URL is derived from git config."""
+        mock_run.return_value = MagicMock(
+            stdout="https://github.com/acidghost/actions-latest.git",
+            returncode=0,
+        )
+
+        result = fetch_versions.get_base_url()
+
+        self.assertEqual(result, "https://acidghost.github.io/actions-latest/")
+
+    @patch("fetch_versions.subprocess.run")
+    def test_get_base_url_fallback(self, mock_run):
+        """Test that base URL falls back to default when git config fails."""
+        mock_run.return_value = MagicMock(stdout="", returncode=1)
+
+        result = fetch_versions.get_base_url()
+
+        self.assertEqual(result, "https://acidghost.github.io/actions-latest/")
 
 
 if __name__ == "__main__":

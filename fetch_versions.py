@@ -22,6 +22,10 @@ VERSIONS_FILE = SCRIPT_DIR / "versions.txt"
 VERSIONS_SHA_FILE = SCRIPT_DIR / "versions-sha.txt"
 UNVERSIONED_FILE = SCRIPT_DIR / "unversioned.txt"
 README_FILE = SCRIPT_DIR / "README.md"
+INDEX_FILE = SCRIPT_DIR / "index.json"
+
+# Base URL with fallback
+BASE_URL = "https://acidghost.github.io/actions-latest/"
 
 # Markers for the README section
 README_START_MARKER = "<!-- VERSIONS_START -->"
@@ -42,6 +46,9 @@ ADDITIONAL_REPOS: list[str] = [
     "jdx/mise-action",
     "ruby/setup-ruby",
     "taiki-e/install-action",
+]
+ADDITIONAL_ORGS: list[str] = [
+    "aws-actions",
 ]
 SKIP_REPOS: list[str] = [
     "action-versions",
@@ -81,6 +88,53 @@ def load_unversioned() -> set[str]:
 def save_unversioned(repos: set[str]) -> None:
     """Save the set of repos known to have no vINTEGER tags."""
     with open(UNVERSIONED_FILE, "w") as f:
+        for repo_name in sorted(repos):
+            f.write(f"{repo_name}\n")
+
+
+def get_org_versions_file(org: str) -> Path:
+    """Get the versions file path for a specific org."""
+    return SCRIPT_DIR / f"{org}-versions.txt"
+
+
+def get_org_versions_sha_file(org: str) -> Path:
+    """Get the SHA-pinned versions file path for a specific org."""
+    return SCRIPT_DIR / f"{org}-versions-sha.txt"
+
+
+def get_org_unversioned_file(org: str) -> Path:
+    """Get the unversioned cache file path for a specific org."""
+    return SCRIPT_DIR / f"{org}-unversioned.txt"
+
+
+def get_org_readme_markers(org: str) -> tuple[str, str]:
+    """Get the README start/end markers for a specific org's versions."""
+    return (
+        f"<!-- {org.upper()}_VERSIONS_START -->",
+        f"<!-- {org.upper()}_VERSIONS_END -->",
+    )
+
+
+def get_org_readme_sha_markers(org: str) -> tuple[str, str]:
+    """Get the README start/end markers for a specific org's SHA-pinned versions."""
+    return (
+        f"<!-- {org.upper()}_VERSIONS_SHA_START -->",
+        f"<!-- {org.upper()}_VERSIONS_SHA_END -->",
+    )
+
+
+def load_org_unversioned(org: str) -> set[str]:
+    """Load the set of repos known to have no vINTEGER tags for a specific org."""
+    file = get_org_unversioned_file(org)
+    if not file.exists():
+        return set()
+    return set(line.strip() for line in file.read_text().splitlines() if line.strip())
+
+
+def save_org_unversioned(org: str, repos: set[str]) -> None:
+    """Save the set of repos known to have no vINTEGER tags for a specific org."""
+    file = get_org_unversioned_file(org)
+    with open(file, "w") as f:
         for repo_name in sorted(repos):
             f.write(f"{repo_name}\n")
 
@@ -149,6 +203,76 @@ def update_readme_sha(versions_sha_content: str) -> None:
 
     README_FILE.write_text(new_readme)
     print(f"Updated {README_FILE} with SHA-pinned versions")
+
+
+def update_readme_for_org(org: str, versions_content: str) -> None:
+    """Update the README.md with a specific org's versions in a collapsible section."""
+    if not README_FILE.exists():
+        print(f"Warning: {README_FILE} not found, skipping README update for {org}")
+        return
+
+    readme_text = README_FILE.read_text()
+    start_marker, end_marker = get_org_readme_markers(org)
+
+    # Build the new section content
+    new_section = f"""{start_marker}
+<details>
+<summary>Latest versions</summary>
+
+```
+{versions_content}```
+
+</details>
+{end_marker}"""
+
+    # Check if markers already exist
+    if start_marker in readme_text and end_marker in readme_text:
+        # Replace existing section
+        pattern = re.compile(
+            re.escape(start_marker) + r".*?" + re.escape(end_marker), re.DOTALL
+        )
+        new_readme = pattern.sub(new_section, readme_text)
+    else:
+        # Append to end of file
+        new_readme = readme_text.rstrip() + "\n\n" + new_section + "\n"
+
+    README_FILE.write_text(new_readme)
+    print(f"Updated README with {org} versions")
+
+
+def update_readme_sha_for_org(org: str, versions_sha_content: str) -> None:
+    """Update the README.md with a specific org's SHA-pinned versions in a collapsible section."""
+    if not README_FILE.exists():
+        print(f"Warning: {README_FILE} not found, skipping README SHA update for {org}")
+        return
+
+    readme_text = README_FILE.read_text()
+    start_marker, end_marker = get_org_readme_sha_markers(org)
+
+    # Build the new section content
+    new_section = f"""{start_marker}
+<details>
+<summary>Latest versions (SHA-pinned)</summary>
+
+```
+{versions_sha_content}```
+
+</details>
+{end_marker}"""
+
+    # Check if markers already exist
+    if start_marker in readme_text and end_marker in readme_text:
+        # Replace existing section
+        pattern = re.compile(
+            re.escape(start_marker) + r".*?" + re.escape(end_marker), re.DOTALL
+        )
+        new_readme = pattern.sub(new_section, readme_text)
+    else:
+        # Append to end of file
+        new_readme = readme_text.rstrip() + "\n\n" + new_section + "\n"
+
+    README_FILE.write_text(new_readme)
+    print(f"Updated README with {org} SHA-pinned versions")
 
 
 def fetch_repos(org: str) -> list[dict]:
@@ -277,12 +401,12 @@ def get_latest_semver_tag(tags: list[tuple[str, str]]) -> tuple[str, str] | None
 
     for tag_name, commit_sha in tags:
         tname = tag_name.strip()
-        if (match := version_pattern.match(tname)):
+        if match := version_pattern.match(tname):
             major = int(match.group(1))
             minor = int(match.group(2))
             patch = int(match.group(3))
             version_tags.append(((major, minor, patch), tname, commit_sha))
-        elif (match := version_major_pattern.match(tname)):
+        elif match := version_major_pattern.match(tname):
             major = int(match.group(1))
             version_tags.append(((major, 0, 0), tname, commit_sha))
 
@@ -294,6 +418,71 @@ def get_latest_semver_tag(tags: list[tuple[str, str]]) -> tuple[str, str] | None
     return (version_tags[0][1], version_tags[0][2])
 
 
+def get_base_url() -> str:
+    """Attempt to derive base URL from git repository, with fallback."""
+    try:
+        result = subprocess.run(
+            ["git", "config", "--get", "remote.origin.url"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        if result.returncode == 0 and result.stdout:
+            git_url = result.stdout.strip()
+
+            # Parse GitHub HTTPS URL
+            # https://github.com/user/repo.git -> https://user.github.io/repo/
+            if git_url.startswith("https://github.com/"):
+                # Extract user/repo
+                parts = git_url.replace(".git", "").split("/")
+                if len(parts) >= 2:
+                    user, repo = parts[-2], parts[-1]
+                    return f"https://{user}.github.io/{repo}/"
+
+            # Parse GitHub SSH URL
+            # git@github.com:user/repo.git -> https://user.github.io/repo/
+            elif git_url.startswith("git@github.com:"):
+                # Extract user/repo (SSH format uses colon instead of slash)
+                parts = git_url.replace(".git", "").split(":")[-1].split("/")
+                if len(parts) >= 2:
+                    user, repo = parts[0], parts[1]
+                    return f"https://{user}.github.io/{repo}/"
+
+        # Fallback to hardcoded URL
+        return BASE_URL
+    except (subprocess.SubprocessError, FileNotFoundError):
+        return BASE_URL
+
+
+def generate_index_json() -> None:
+    """Generate index.json file listing all available bundles."""
+    base_url = get_base_url()
+
+    # Build index structure
+    index = {"bundles": {}, "orgs": {}}
+
+    # Add default bundle (generic + ADDITIONAL_REPOS)
+    index["bundles"]["default"] = {
+        "versions_url": f"{base_url}versions.txt",
+        "versions_sha_url": f"{base_url}versions-sha.txt",
+    }
+
+    # Add each additional org
+    for org in ADDITIONAL_ORGS:
+        org_key = org.lower()
+        index["orgs"][org_key] = {
+            "versions_url": f"{base_url}{org_key}-versions.txt",
+            "versions_sha_url": f"{base_url}{org_key}-versions-sha.txt",
+        }
+
+    # Write index.json
+    with open(INDEX_FILE, "w") as f:
+        json.dump(index, f, indent=2)
+
+    print(f"Generated {INDEX_FILE}")
+
+
 def main():
     """Main function to fetch repos, get tags via API, and generate versions.txt."""
     # Load cached unversioned repos
@@ -301,10 +490,27 @@ def main():
     if unversioned:
         print(f"Loaded {len(unversioned)} known unversioned repos from cache")
 
+    # Load per-org unversioned caches
+    org_unversioned: dict[str, set[str]] = {}
+    for org in ADDITIONAL_ORGS:
+        org_unversioned[org] = load_org_unversioned(org)
+        if org_unversioned[org]:
+            print(
+                f"Loaded {len(org_unversioned[org])} known unversioned repos for {org}"
+            )
+
     # Fetch repos from the main organization
     print(f"Fetching repos for {ORG_NAME}...")
     org_repos = fetch_repos(ORG_NAME)
     print(f"Found {len(org_repos)} repos")
+
+    # Fetch repos from additional orgs
+    additional_orgs_repos: dict[str, list[dict]] = {}
+    for additional_org in ADDITIONAL_ORGS:
+        print(f"Fetching repos for {additional_org}...")
+        org_repos_list = fetch_repos(additional_org)
+        print(f"Found {len(org_repos_list)} repos for {additional_org}")
+        additional_orgs_repos[additional_org] = org_repos_list
 
     # Build list of repos to process: combine org repos with additional repos
     repos_to_process = []
@@ -326,19 +532,45 @@ def main():
         org, repo_name = parse_repo(additional_repo)
         repos_to_process.append((additional_repo, org, repo_name))
 
+    # Add repos from additional orgs
+    for additional_org, org_repos in additional_orgs_repos.items():
+        for repo in org_repos:
+            repo_name = repo["name"]
+            repo_ref = f"{additional_org}/{repo_name}"
+            repos_to_process.append((repo_ref, additional_org, repo_name))
+
+    additional_orgs_repo_count = sum(
+        len(org_repos) for org_repos in additional_orgs_repos.values()
+    )
     print(
-        f"Processing {len(repos_to_process)} repos total (including {len(ADDITIONAL_REPOS)} additional)"
+        f"Processing {len(repos_to_process)} repos total (including {len(ADDITIONAL_REPOS)} additional repos and {additional_orgs_repo_count} from additional orgs)"
     )
 
     versions = []
     versions_sha = []
     new_unversioned = set()
+    new_org_unversioned: dict[str, set[str]] = {}
+
+    # Track org-specific versions separately
+    org_versions: dict[str, list[tuple[str, str]]] = {}
+    org_versions_sha: dict[str, list[tuple[str, str, str]]] = {}
 
     for repo_ref, org, repo_name in repos_to_process:
+        # Determine which unversioned cache to use
+        if org in ADDITIONAL_ORGS:
+            org_cache = org_unversioned.get(org, set())
+        else:
+            org_cache = unversioned
+
         # Skip repos known to have no vINTEGER tags
-        if repo_ref in unversioned:
+        if repo_ref in org_cache:
             print(f"Skipping {repo_ref} (cached as unversioned)")
-            new_unversioned.add(repo_ref)
+            if org in ADDITIONAL_ORGS:
+                if org not in new_org_unversioned:
+                    new_org_unversioned[org] = set()
+                new_org_unversioned[org].add(repo_ref)
+            else:
+                new_unversioned.add(repo_ref)
             continue
 
         print(f"Fetching tags for {repo_ref}...", end=" ")
@@ -348,23 +580,48 @@ def main():
 
         if latest_tag:
             # Use vINTEGER tag (preferred)
-            versions.append((repo_ref, latest_tag))
             print(f"{latest_tag}")
 
-            # Also add semver info if available
-            if latest_semver:
-                semver_tag, commit_sha = latest_semver
-                versions_sha.append((repo_ref, commit_sha, semver_tag))
+            # Add to appropriate collection based on org
+            if org in ADDITIONAL_ORGS:
+                if org not in org_versions:
+                    org_versions[org] = []
+                if org not in org_versions_sha:
+                    org_versions_sha[org] = []
+                org_versions[org].append((repo_ref, latest_tag))
+                if latest_semver:
+                    semver_tag, commit_sha = latest_semver
+                    org_versions_sha[org].append((repo_ref, commit_sha, semver_tag))
+            else:
+                versions.append((repo_ref, latest_tag))
+                if latest_semver:
+                    semver_tag, commit_sha = latest_semver
+                    versions_sha.append((repo_ref, commit_sha, semver_tag))
         elif latest_semver:
             # Fallback to semver tag when no vINTEGER tag exists
             semver_tag, commit_sha = latest_semver
-            versions.append((repo_ref, semver_tag))
-            versions_sha.append((repo_ref, commit_sha, semver_tag))
             print(f"{semver_tag} (semver fallback)")
+
+            # Add to appropriate collection based on org
+            if org in ADDITIONAL_ORGS:
+                if org not in org_versions:
+                    org_versions[org] = []
+                if org not in org_versions_sha:
+                    org_versions_sha[org] = []
+                org_versions[org].append((repo_ref, semver_tag))
+                org_versions_sha[org].append((repo_ref, commit_sha, semver_tag))
+            else:
+                versions.append((repo_ref, semver_tag))
+                versions_sha.append((repo_ref, commit_sha, semver_tag))
         else:
             # No version tags at all
             print("no version tag")
-            new_unversioned.add(repo_ref)
+            if org in ADDITIONAL_ORGS:
+                if org not in new_org_unversioned:
+                    new_org_unversioned[org] = set()
+                new_org_unversioned[org].add(repo_ref)
+            else:
+                new_unversioned.add(repo_ref)
 
     # Sort alphabetically by repo reference
     versions.sort(key=lambda x: x[0].lower())
@@ -404,6 +661,57 @@ def main():
     print(f"\nWrote {len(versions)} versions to {VERSIONS_FILE}")
     print(f"Wrote {len(versions_sha)} versions with SHAs to {VERSIONS_SHA_FILE}")
     print(f"Cached {len(new_unversioned)} unversioned repos to {UNVERSIONED_FILE}")
+
+    # Write per-org files and update README sections
+    for additional_org in ADDITIONAL_ORGS:
+        # Get versions for this org from org-specific lists
+        org_versions_list = org_versions.get(additional_org, [])
+        org_versions_sha_list = org_versions_sha.get(additional_org, [])
+
+        if org_versions_list:
+            # Sort alphabetically
+            org_versions_list.sort(key=lambda x: x[0].lower())
+            org_versions_sha_list.sort(key=lambda x: x[0].lower())
+
+            # Build content
+            org_versions_content = (
+                "\n".join(f"{repo_ref}@{tag}" for repo_ref, tag in org_versions_list)
+                + "\n"
+            )
+            org_versions_sha_content = (
+                "\n".join(
+                    f"{repo_ref}@{commit_sha} # {tag}"
+                    for repo_ref, commit_sha, tag in org_versions_sha_list
+                )
+                + "\n"
+            )
+
+            # Write files
+            org_versions_file = get_org_versions_file(additional_org)
+            with open(org_versions_file, "w") as f:
+                f.write(org_versions_content)
+            print(f"Wrote {len(org_versions_list)} versions to {org_versions_file}")
+
+            org_versions_sha_file = get_org_versions_sha_file(additional_org)
+            with open(org_versions_sha_file, "w") as f:
+                f.write(org_versions_sha_content)
+            print(
+                f"Wrote {len(org_versions_sha_list)} SHA versions to {org_versions_sha_file}"
+            )
+
+            # Update README
+            update_readme_for_org(additional_org, org_versions_content)
+            update_readme_sha_for_org(additional_org, org_versions_sha_content)
+
+        # Update per-org unversioned cache
+        if additional_org in new_org_unversioned:
+            save_org_unversioned(additional_org, new_org_unversioned[additional_org])
+            print(
+                f"Cached {len(new_org_unversioned[additional_org])} unversioned repos for {additional_org}"
+            )
+
+    # Generate index.json
+    generate_index_json()
 
 
 if __name__ == "__main__":

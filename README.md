@@ -25,10 +25,53 @@ The token is optional - without it, the script works with lower API rate limits 
 
 ### Output Files
 
-The script generates two version files:
+The script generates the following files:
 
-- **`versions.txt`** - Simple format with integer version tags: `actions/checkout@v6`
-- **`versions-sha.txt`** - SHA-pinned format with semver tags: `actions/checkout@abcdef123 # v6.1.0`
+- **`versions.txt`** - Default bundle with actions org + additional repos
+- **`versions-sha.txt`** - SHA-pinned format for default bundle
+- **`{org}-versions.txt`** - Per-org version files (e.g., `aws-actions-versions.txt`)
+- **`{org}-versions-sha.txt`** - Per-org SHA-pinned files
+- **`index.json`** - Discovery file listing all available bundles
+
+## API
+
+An `index.json` file is available at:
+
+https://acidghost.github.io/actions-latest/index.json
+
+This file lists all available bundles and their download URLs.
+
+### Example Response
+
+```json
+{
+  "bundles": {
+    "default": {
+      "versions_url": "https://acidghost.github.io/actions-latest/versions.txt",
+      "versions_sha_url": "https://acidghost.github.io/actions-latest/versions-sha.txt"
+    }
+  },
+  "orgs": {
+    "aws-actions": {
+      "versions_url": "https://acidghost.github.io/actions-latest/aws-actions-versions.txt",
+      "versions_sha_url": "https://acidghost.github.io/actions-latest/aws-actions-versions-sha.txt"
+    }
+  }
+}
+```
+
+### Usage Examples
+
+```bash
+# Fetch index to discover available bundles
+curl -s https://acidghost.github.io/actions-latest/index.json | jq '.'
+
+# Get default bundle versions
+curl -s https://acidghost.github.io/actions-latest/versions.txt
+
+# Get AWS-specific versions
+curl -s https://acidghost.github.io/actions-latest/aws-actions-versions.txt
+```
 
 ## Fork Note
 
@@ -141,3 +184,67 @@ ruby/setup-ruby@319994f95fa847cf3fb3cd3dbe89f6dcde9f178f # v1.295.0
 taiki-e/install-action@94a7388bec5d4c8dd93e3ebf09e0ff448f3f6f4d # v2.68.35
 ```
 <!-- VERSIONS_SHA_END -->
+
+## Orgs
+
+### `aws-actions`
+
+<!-- AWS-ACTIONS_VERSIONS_START -->
+<details>
+<summary>Latest versions</summary>
+
+```
+aws-actions/amazon-ecr-login@v2
+aws-actions/amazon-ecs-deploy-express-service@v1
+aws-actions/amazon-ecs-deploy-task-definition@v2
+aws-actions/amazon-ecs-render-task-definition@v1
+aws-actions/amazon-eks-fargate@v0
+aws-actions/application-observability-for-aws@v1
+aws-actions/aws-cloudformation-github-deploy@v2
+aws-actions/aws-codebuild-run-build@v1
+aws-actions/aws-elasticbeanstalk-deploy@v1.0.2
+aws-actions/aws-lambda-deploy@v1
+aws-actions/aws-secretsmanager-get-secrets@v2
+aws-actions/closed-issue-message@v2
+aws-actions/cloudformation-aws-iam-policy-validator@v1.0.4
+aws-actions/codeguru-security@v1
+aws-actions/configure-aws-credentials@v6
+aws-actions/setup-sam@v2
+aws-actions/stale-issue-cleanup@v6
+aws-actions/sustainability-scanner@v1
+aws-actions/terraform-aws-iam-policy-validator@v1.0.3
+aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
+```
+
+</details>
+<!-- AWS-ACTIONS_VERSIONS_END -->
+
+<!-- AWS-ACTIONS_VERSIONS_SHA_START -->
+<details>
+<summary>Latest versions (SHA-pinned)</summary>
+
+```
+aws-actions/amazon-ecr-login@c962da2960ed15f492addc26fffa274485265950 # v2.0.2
+aws-actions/amazon-ecs-deploy-express-service@1cd950681bc125e2c0d50696c5d53fc2c0bacfd4 # v1.2.0
+aws-actions/amazon-ecs-deploy-task-definition@cbf54ec46642b86ff78c2f5793da6746954cf8ff # v2.6.0
+aws-actions/amazon-ecs-render-task-definition@6b89923a897d41e9ad789181d8865b532ecf973c # v1.8.3
+aws-actions/amazon-eks-fargate@fa91b1ce6e342eb17a1d57df976506d02f074640 # v0.1.1
+aws-actions/application-observability-for-aws@95bb59e4538ba9ef746805d8a2bbbe531ba2a728 # v1.1.1
+aws-actions/aws-cloudformation-github-deploy@c6cd26bb03f19ebe84c84e9cdbedfb307bf44fb4 # v2.0.0
+aws-actions/aws-codebuild-run-build@4d15a47425739ac2296ba5e7eee3bdd4bfbdd767 # v1.0.18
+aws-actions/aws-elasticbeanstalk-deploy@c4fb70705562024f8cdc83f001e9b08695ac4164 # v1.0.2
+aws-actions/aws-lambda-deploy@29ea35c124579506cf0475e20df36198eb670d89 # v1.1.0
+aws-actions/aws-secretsmanager-get-secrets@a9a7eb4e2f2871d30dc5b892576fde60a2ecc802 # v2.0.10
+aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
+aws-actions/cloudformation-aws-iam-policy-validator@aa5ca59693ba89d200db1d2b3af4b60989627bdc # v1.0.4
+aws-actions/codeguru-security@44877802cfee29abce47f8ba12b8417d70d01a9b # v1.2.2
+aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+aws-actions/setup-sam@d78e1a4a9656d3b223e59b80676a797f20093133 # v2
+aws-actions/stale-issue-cleanup@0604f2edf84a3a66bc0dfb4a30eb07814cbdf440 # v7.1.1
+aws-actions/sustainability-scanner@d6067411fc5290a836e3ebcf388c746d83cf0e9f # v1.3.1
+aws-actions/terraform-aws-iam-policy-validator@1cd3c484b95b6c3d9e42ca1797d89ae74eb29ede # v1.0.3
+aws-actions/vulnerability-scan-github-action-for-amazon-inspector@47e8686a3b2158018648eab3851ac6d06894db7c # v1.4.1
+```
+
+</details>
+<!-- AWS-ACTIONS_VERSIONS_SHA_END -->
