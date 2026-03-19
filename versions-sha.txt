@@ -2,8 +2,8 @@ actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
 actions/ai-inference@af6ad2c4ac4edf01884054fc3a6caa6d2567c13a # v2.0.8
 actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
 actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
-actions/attest-sbom@07e74fc4e78d1aad915e867f9a094073a9f71527 # v4.0.0
-actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e # v4.1.0
+actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
 actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
@@ -44,4 +44,4 @@ golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
 ruby/setup-ruby@319994f95fa847cf3fb3cd3dbe89f6dcde9f178f # v1.295.0
-taiki-e/install-action@94a7388bec5d4c8dd93e3ebf09e0ff448f3f6f4d # v2.68.35
+taiki-e/install-action@3a911424851a96b72dc168c8dd71fd98ed215d66 # v2.68.36

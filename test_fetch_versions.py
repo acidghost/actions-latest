@@ -908,8 +908,9 @@ class TestOrgReadmeUpdates(unittest.TestCase):
             self.assertIn("<!-- AWS-ACTIONS_VERSIONS_START -->", content)
             self.assertIn("<!-- AWS-ACTIONS_VERSIONS_END -->", content)
             self.assertIn("<details>", content)
-            self.assertIn("<summary>aws-actions</summary>", content)
-            self.assertIn("## aws-actions actions", content)
+            self.assertIn(
+                "<summary><h3><code>aws-actions</code></h3></summary>", content
+            )
             self.assertIn("aws-actions/configure-aws-credentials@v4", content)
 
     @patch("fetch_versions.README_FILE")
@@ -973,8 +974,10 @@ aws-actions/old@v1
             self.assertIn("<!-- DOCKER_VERSIONS_SHA_START -->", content)
             self.assertIn("<!-- DOCKER_VERSIONS_SHA_END -->", content)
             self.assertIn("<details>", content)
-            self.assertIn("<summary>docker (SHA-pinned)</summary>", content)
-            self.assertIn("## docker actions (SHA-pinned)", content)
+            self.assertIn(
+                "<summary><h3><code>docker</code> (SHA-pinned)</h3></summary>",
+                content,
+            )
             self.assertIn("docker/login-action@abc123 # v4.0.0", content)
 
 

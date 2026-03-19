@@ -217,7 +217,7 @@ def update_readme_for_org(org: str, versions_content: str) -> None:
     # Build the new section content
     new_section = f"""{start_marker}
 <details>
-<summary>Latest versions</summary>
+<summary><h3><code>{org}</code></h3></summary>
 
 ```
 {versions_content}```
@@ -252,7 +252,7 @@ def update_readme_sha_for_org(org: str, versions_sha_content: str) -> None:
     # Build the new section content
     new_section = f"""{start_marker}
 <details>
-<summary>Latest versions (SHA-pinned)</summary>
+<summary><h3><code>{org}</code> (SHA-pinned)</h3></summary>
 
 ```
 {versions_sha_content}```
