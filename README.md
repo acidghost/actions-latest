@@ -181,7 +181,7 @@ golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
 ruby/setup-ruby@319994f95fa847cf3fb3cd3dbe89f6dcde9f178f # v1.295.0
-taiki-e/install-action@3a911424851a96b72dc168c8dd71fd98ed215d66 # v2.68.36
+taiki-e/install-action@c12d62a803cbdfe2e7263af15f5a9548065cb4f2 # v2.69.3
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -222,7 +222,7 @@ aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
 <summary><h3><code>aws-actions</code> (SHA-pinned)</h3></summary>
 
 ```
-aws-actions/amazon-ecr-login@c962da2960ed15f492addc26fffa274485265950 # v2.0.2
+aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
 aws-actions/amazon-ecs-deploy-express-service@1cd950681bc125e2c0d50696c5d53fc2c0bacfd4 # v1.2.0
 aws-actions/amazon-ecs-deploy-task-definition@cbf54ec46642b86ff78c2f5793da6746954cf8ff # v2.6.0
 aws-actions/amazon-ecs-render-task-definition@6b89923a897d41e9ad789181d8865b532ecf973c # v1.8.3
