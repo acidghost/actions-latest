@@ -1,7 +1,7 @@
 aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
 aws-actions/amazon-ecs-deploy-express-service@1cd950681bc125e2c0d50696c5d53fc2c0bacfd4 # v1.2.0
 aws-actions/amazon-ecs-deploy-task-definition@cbf54ec46642b86ff78c2f5793da6746954cf8ff # v2.6.0
-aws-actions/amazon-ecs-render-task-definition@6b89923a897d41e9ad789181d8865b532ecf973c # v1.8.3
+aws-actions/amazon-ecs-render-task-definition@77954e213ba1f9f9cb016b86a1d4f6fcdea0d57e # v1.8.4
 aws-actions/amazon-eks-fargate@fa91b1ce6e342eb17a1d57df976506d02f074640 # v0.1.1
 aws-actions/application-observability-for-aws@95bb59e4538ba9ef746805d8a2bbbe531ba2a728 # v1.1.1
 aws-actions/aws-cloudformation-github-deploy@c6cd26bb03f19ebe84c84e9cdbedfb307bf44fb4 # v2.0.0
