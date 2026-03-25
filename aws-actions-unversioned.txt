@@ -1,5 +1,3 @@
 aws-actions/.github
 aws-actions/action-cloudwatch-metrics
-aws-actions/aws-devicefarm-browser-testing
-aws-actions/aws-devicefarm-mobile-device-testing
 aws-actions/codeguru-reviewer

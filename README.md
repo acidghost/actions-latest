@@ -181,7 +181,7 @@ golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 ruby/setup-ruby@319994f95fa847cf3fb3cd3dbe89f6dcde9f178f # v1.295.0
-taiki-e/install-action@0d865d5cc6d507df4765f1f866bfae8bab4e2a73 # v2.69.7
+taiki-e/install-action@328a871ad8f62ecac78390391f463ccabc974b72 # v2.69.9
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -200,6 +200,8 @@ aws-actions/amazon-eks-fargate@v0
 aws-actions/application-observability-for-aws@v1
 aws-actions/aws-cloudformation-github-deploy@v2
 aws-actions/aws-codebuild-run-build@v1
+aws-actions/aws-devicefarm-browser-testing@v3
+aws-actions/aws-devicefarm-mobile-device-testing@v3
 aws-actions/aws-elasticbeanstalk-deploy@v1.0.2
 aws-actions/aws-lambda-deploy@v1
 aws-actions/aws-secretsmanager-get-secrets@v3
@@ -222,7 +224,7 @@ aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
 <summary><h3><code>aws-actions</code> (SHA-pinned)</h3></summary>
 
 ```
-aws-actions/amazon-ecr-login@261fc3d4806db1fa66a15cc11113c456db8870a7 # v2.1.0
+aws-actions/amazon-ecr-login@183a1442edf41672e66566b7fc560e297a290896 # v2.1.1
 aws-actions/amazon-ecs-deploy-express-service@1cd950681bc125e2c0d50696c5d53fc2c0bacfd4 # v1.2.0
 aws-actions/amazon-ecs-deploy-task-definition@cbf54ec46642b86ff78c2f5793da6746954cf8ff # v2.6.0
 aws-actions/amazon-ecs-render-task-definition@77954e213ba1f9f9cb016b86a1d4f6fcdea0d57e # v1.8.4
@@ -230,6 +232,8 @@ aws-actions/amazon-eks-fargate@fa91b1ce6e342eb17a1d57df976506d02f074640 # v0.1.1
 aws-actions/application-observability-for-aws@95bb59e4538ba9ef746805d8a2bbbe531ba2a728 # v1.1.1
 aws-actions/aws-cloudformation-github-deploy@c6cd26bb03f19ebe84c84e9cdbedfb307bf44fb4 # v2.0.0
 aws-actions/aws-codebuild-run-build@4d15a47425739ac2296ba5e7eee3bdd4bfbdd767 # v1.0.18
+aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61bfb1 # v3
+aws-actions/aws-devicefarm-mobile-device-testing@5a6c9fbb66ca99cb92ce07381c8be038f654eff6 # v3
 aws-actions/aws-elasticbeanstalk-deploy@c4fb70705562024f8cdc83f001e9b08695ac4164 # v1.0.2
 aws-actions/aws-lambda-deploy@29ea35c124579506cf0475e20df36198eb670d89 # v1.1.0
 aws-actions/aws-secretsmanager-get-secrets@3a411b6ec5cace3d626412dd917e7bfeac242cfa # v3.0.0
