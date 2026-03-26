@@ -93,7 +93,7 @@ actions/create-github-app-token@v3
 actions/create-release@v1
 actions/delete-package-versions@v5
 actions/dependency-review-action@v3
-actions/deploy-pages@v4
+actions/deploy-pages@v5
 actions/download-artifact@v8
 actions/first-interaction@v3
 actions/github-script@v8
@@ -126,7 +126,7 @@ docker/setup-qemu-action@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.295.0
+ruby/setup-ruby@v1.296.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -142,12 +142,12 @@ actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.
 actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e # v4.1.0
 actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
 actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
 actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
 actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
 actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
-actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
 actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.1.0
 actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
@@ -180,8 +180,8 @@ docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
-ruby/setup-ruby@319994f95fa847cf3fb3cd3dbe89f6dcde9f178f # v1.295.0
-taiki-e/install-action@328a871ad8f62ecac78390391f463ccabc974b72 # v2.69.9
+ruby/setup-ruby@eab2afb99481ca09a4e91171a8e0aee0e89bfedd # v1.296.0
+taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182 # v2.69.10
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -226,7 +226,7 @@ aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
 ```
 aws-actions/amazon-ecr-login@183a1442edf41672e66566b7fc560e297a290896 # v2.1.1
 aws-actions/amazon-ecs-deploy-express-service@1cd950681bc125e2c0d50696c5d53fc2c0bacfd4 # v1.2.0
-aws-actions/amazon-ecs-deploy-task-definition@cbf54ec46642b86ff78c2f5793da6746954cf8ff # v2.6.0
+aws-actions/amazon-ecs-deploy-task-definition@fc8fc60f3a60ffd500fcb13b209c59d221ac8c8c # v2.6.1
 aws-actions/amazon-ecs-render-task-definition@77954e213ba1f9f9cb016b86a1d4f6fcdea0d57e # v1.8.4
 aws-actions/amazon-eks-fargate@fa91b1ce6e342eb17a1d57df976506d02f074640 # v0.1.1
 aws-actions/application-observability-for-aws@95bb59e4538ba9ef746805d8a2bbbe531ba2a728 # v1.1.1
