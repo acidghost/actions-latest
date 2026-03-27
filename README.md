@@ -126,7 +126,7 @@ docker/setup-qemu-action@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.296.0
+ruby/setup-ruby@v1.298.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -171,7 +171,7 @@ actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
 actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
 astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
-dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2.5.0
+dependabot/fetch-metadata@ffa630c65fa7e0ecfa0625b5ceda64399aea1b36 # v3.0.0
 docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
 docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
 docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
@@ -180,8 +180,8 @@ docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
-ruby/setup-ruby@eab2afb99481ca09a4e91171a8e0aee0e89bfedd # v1.296.0
-taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182 # v2.69.10
+ruby/setup-ruby@4dc28cf14d77b0afa6832d9765ac422dbf0dfedd # v1.298.0
+taiki-e/install-action@80a23c5ba9e1100fd8b777106e810018ed662a7b # v2.69.12
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -202,7 +202,7 @@ aws-actions/aws-cloudformation-github-deploy@v2
 aws-actions/aws-codebuild-run-build@v1
 aws-actions/aws-devicefarm-browser-testing@v3
 aws-actions/aws-devicefarm-mobile-device-testing@v3
-aws-actions/aws-elasticbeanstalk-deploy@v1.0.2
+aws-actions/aws-elasticbeanstalk-deploy@v1.0.3
 aws-actions/aws-lambda-deploy@v1
 aws-actions/aws-secretsmanager-get-secrets@v3
 aws-actions/closed-issue-message@v2
@@ -234,7 +234,7 @@ aws-actions/aws-cloudformation-github-deploy@c6cd26bb03f19ebe84c84e9cdbedfb307bf
 aws-actions/aws-codebuild-run-build@4d15a47425739ac2296ba5e7eee3bdd4bfbdd767 # v1.0.18
 aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61bfb1 # v3
 aws-actions/aws-devicefarm-mobile-device-testing@5a6c9fbb66ca99cb92ce07381c8be038f654eff6 # v3
-aws-actions/aws-elasticbeanstalk-deploy@c4fb70705562024f8cdc83f001e9b08695ac4164 # v1.0.2
+aws-actions/aws-elasticbeanstalk-deploy@e90ca3136d2cf14ddb5c7a30538d6f214d9a3c0e # v1.0.3
 aws-actions/aws-lambda-deploy@29ea35c124579506cf0475e20df36198eb670d89 # v1.1.0
 aws-actions/aws-secretsmanager-get-secrets@3a411b6ec5cace3d626412dd917e7bfeac242cfa # v3.0.0
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
