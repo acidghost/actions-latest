@@ -88,7 +88,7 @@ actions/attest-build-provenance@v4
 actions/attest-sbom@v4
 actions/cache@v5
 actions/checkout@v6
-actions/configure-pages@v5
+actions/configure-pages@v6
 actions/create-github-app-token@v3
 actions/create-release@v1
 actions/delete-package-versions@v5
@@ -126,7 +126,7 @@ docker/setup-qemu-action@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.298.0
+ruby/setup-ruby@v1.299.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -180,8 +180,8 @@ docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
-ruby/setup-ruby@4dc28cf14d77b0afa6832d9765ac422dbf0dfedd # v1.298.0
-taiki-e/install-action@80a23c5ba9e1100fd8b777106e810018ed662a7b # v2.69.12
+ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+taiki-e/install-action@704f92c11daa75bff5b4e01fcb083350c16c47b9 # v2.69.13
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -202,7 +202,7 @@ aws-actions/aws-cloudformation-github-deploy@v2
 aws-actions/aws-codebuild-run-build@v1
 aws-actions/aws-devicefarm-browser-testing@v3
 aws-actions/aws-devicefarm-mobile-device-testing@v3
-aws-actions/aws-elasticbeanstalk-deploy@v1.0.3
+aws-actions/aws-elasticbeanstalk-deploy@v1.0.4
 aws-actions/aws-lambda-deploy@v1
 aws-actions/aws-secretsmanager-get-secrets@v3
 aws-actions/closed-issue-message@v2
@@ -234,7 +234,7 @@ aws-actions/aws-cloudformation-github-deploy@c6cd26bb03f19ebe84c84e9cdbedfb307bf
 aws-actions/aws-codebuild-run-build@4d15a47425739ac2296ba5e7eee3bdd4bfbdd767 # v1.0.18
 aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61bfb1 # v3
 aws-actions/aws-devicefarm-mobile-device-testing@5a6c9fbb66ca99cb92ce07381c8be038f654eff6 # v3
-aws-actions/aws-elasticbeanstalk-deploy@e90ca3136d2cf14ddb5c7a30538d6f214d9a3c0e # v1.0.3
+aws-actions/aws-elasticbeanstalk-deploy@1f56e4e813ae4eb167e69ca324234c336c1df573 # v1.0.4
 aws-actions/aws-lambda-deploy@29ea35c124579506cf0475e20df36198eb670d89 # v1.1.0
 aws-actions/aws-secretsmanager-get-secrets@3a411b6ec5cace3d626412dd917e7bfeac242cfa # v3.0.0
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
