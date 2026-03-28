@@ -41,6 +41,7 @@ ADDITIONAL_REPOS: list[str] = [
     "docker/metadata-action",
     "docker/setup-buildx-action",
     "docker/setup-qemu-action",
+    "dorny/paths-filter",
     "golangci/golangci-lint-action",
     "goreleaser/goreleaser-action",
     "jdx/mise-action",

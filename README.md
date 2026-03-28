@@ -123,6 +123,7 @@ docker/login-action@v4
 docker/metadata-action@v6
 docker/setup-buildx-action@v4
 docker/setup-qemu-action@v4
+dorny/paths-filter@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
@@ -177,11 +178,12 @@ docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
 docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
 docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
+dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
-taiki-e/install-action@704f92c11daa75bff5b4e01fcb083350c16c47b9 # v2.69.13
+taiki-e/install-action@a164de717a0ee9284c2d9db1c6016a4c339cd333 # v2.69.14
 ```
 <!-- VERSIONS_SHA_END -->
 
