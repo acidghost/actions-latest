@@ -161,7 +161,7 @@ actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
 actions/setup-copilot@01f2415f3de9e622b1cc969773f108741021a606 # v0.0.5
 actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
-actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
 actions/setup-haskell@048c29979717135f04282c42c2186bb5945b2d8f # v1.1.4
 actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
 actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
@@ -171,7 +171,7 @@ actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
 actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
 actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
-astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
 dependabot/fetch-metadata@ffa630c65fa7e0ecfa0625b5ceda64399aea1b36 # v3.0.0
 docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
 docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
@@ -183,7 +183,7 @@ golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
-taiki-e/install-action@0fde6d128a3d980ceac30be8c8b8739abd963b81 # v2.70.0
+taiki-e/install-action@e9e8e031bcd90cdbe8ac6bb1d376f8596e587fbf # v2.70.2
 ```
 <!-- VERSIONS_SHA_END -->
 
