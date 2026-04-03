@@ -4,6 +4,7 @@ Unit tests for fetch_versions.py
 """
 
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -1218,6 +1219,171 @@ class TestIndexJson(unittest.TestCase):
         result = fetch_versions.get_base_url()
 
         self.assertEqual(result, "https://acidghost.github.io/actions-latest/")
+
+
+class TestDetectRegressions(unittest.TestCase):
+    """Tests for the detect_regressions function."""
+
+    def test_no_regressions_same_sets(self):
+        """No regressions when old and new are identical."""
+        old = {"actions/repo-a", "actions/repo-b"}
+        new = {"actions/repo-a", "actions/repo-b"}
+        result = fetch_versions.detect_regressions(old, new, {}, {})
+        self.assertEqual(result, [])
+
+    def test_simple_regression(self):
+        """One repo added to unversioned is a regression."""
+        old: set[str] = set()
+        new = {"actions/repo-a"}
+        result = fetch_versions.detect_regressions(old, new, {}, {})
+        self.assertEqual(result, ["actions/repo-a"])
+
+    def test_multiple_regressions_sorted(self):
+        """Multiple regressions returned as sorted list."""
+        old: set[str] = set()
+        new = {"actions/zebra", "actions/alpha", "actions/middle"}
+        result = fetch_versions.detect_regressions(old, new, {}, {})
+        self.assertEqual(result, ["actions/alpha", "actions/middle", "actions/zebra"])
+
+    def test_already_unversioned_not_regression(self):
+        """Repo already in old unversioned set is NOT a regression."""
+        old = {"actions/repo-a"}
+        new = {"actions/repo-a", "actions/repo-b"}
+        result = fetch_versions.detect_regressions(old, new, {}, {})
+        self.assertEqual(result, ["actions/repo-b"])
+
+    def test_org_specific_regressions(self):
+        """Org-specific regressions detected correctly."""
+        old_org = {"aws-actions": {"aws-actions/cached"}}
+        new_org = {"aws-actions": {"aws-actions/cached", "aws-actions/new-regression"}}
+        result = fetch_versions.detect_regressions(set(), set(), old_org, new_org)
+        self.assertEqual(result, ["aws-actions/new-regression"])
+
+    def test_org_regression_with_main_regression(self):
+        """Both main and org regressions detected together."""
+        old: set[str] = set()
+        new = {"actions/main-regression"}
+        old_org: dict[str, set[str]] = {}
+        new_org = {"aws-actions": {"aws-actions/org-regression"}}
+        result = fetch_versions.detect_regressions(old, new, old_org, new_org)
+        self.assertEqual(
+            result,
+            ["actions/main-regression", "aws-actions/org-regression"],
+        )
+
+    def test_empty_inputs(self):
+        """Empty inputs produce no regressions."""
+        result = fetch_versions.detect_regressions(set(), set(), {}, {})
+        self.assertEqual(result, [])
+
+
+class TestCreateRegressionIssue(unittest.TestCase):
+    """Tests for the create_regression_issue function."""
+
+    @patch("fetch_versions.subprocess.run")
+    def test_ci_gate_not_in_ci(self, mock_run):
+        """When GITHUB_ACTIONS is not set, no gh commands are run."""
+        with patch.dict("os.environ", {}, clear=True):
+            fetch_versions.create_regression_issue("actions/repo-a")
+        mock_run.assert_not_called()
+
+    @patch("fetch_versions.subprocess.run")
+    def test_ci_gate_false_value(self, mock_run):
+        """When GITHUB_ACTIONS is not 'true', no gh commands are run."""
+        with patch.dict("os.environ", {"GITHUB_ACTIONS": "false"}):
+            fetch_versions.create_regression_issue("actions/repo-a")
+        mock_run.assert_not_called()
+
+    @patch("fetch_versions.subprocess.run")
+    def test_ci_gate_creates_issue(self, mock_run):
+        """When in CI with no existing issue, creates issue and label."""
+        env = {
+            "GITHUB_ACTIONS": "true",
+            "GITHUB_SERVER_URL": "https://github.com",
+            "GITHUB_REPOSITORY": "user/repo",
+            "GITHUB_RUN_ID": "12345",
+        }
+        with patch.dict("os.environ", env):
+            # First call: gh issue list (no existing issues)
+            # Second call: gh label create
+            # Third call: gh issue create
+            mock_run.return_value = MagicMock(stdout="", returncode=0)
+            fetch_versions.create_regression_issue("actions/repo-a")
+
+        self.assertEqual(mock_run.call_count, 3)
+
+        # Verify issue list check
+        list_call = mock_run.call_args_list[0]
+        self.assertEqual(list_call[0][0][0:3], ["gh", "issue", "list"])
+        self.assertIn("--label", list_call[0][0])
+        self.assertIn("regression", list_call[0][0])
+
+        # Verify label create
+        label_call = mock_run.call_args_list[1]
+        self.assertEqual(label_call[0][0][0:3], ["gh", "label", "create"])
+
+        # Verify issue create
+        create_call = mock_run.call_args_list[2]
+        self.assertEqual(create_call[0][0][0:3], ["gh", "issue", "create"])
+        title_idx = create_call[0][0].index("--title")
+        self.assertEqual(
+            create_call[0][0][title_idx + 1],
+            "Regression: actions/repo-a moved to unversioned",
+        )
+
+    @patch("fetch_versions.subprocess.run")
+    def test_idempotency_skips_existing_issue(self, mock_run):
+        """When an open regression issue exists, no new issue is created."""
+        env = {
+            "GITHUB_ACTIONS": "true",
+            "GITHUB_SERVER_URL": "https://github.com",
+            "GITHUB_REPOSITORY": "user/repo",
+            "GITHUB_RUN_ID": "12345",
+        }
+        with patch.dict("os.environ", env):
+            # gh issue list returns existing issue
+            mock_run.return_value = MagicMock(
+                stdout="42\topen\tRegression: actions/repo-a moved to unversioned",
+                returncode=0,
+            )
+            fetch_versions.create_regression_issue("actions/repo-a")
+
+        # Only the list call should be made
+        self.assertEqual(mock_run.call_count, 1)
+
+    @patch("fetch_versions.subprocess.run")
+    def test_error_resilience(self, mock_run):
+        """If gh fails, function returns without raising."""
+        env = {
+            "GITHUB_ACTIONS": "true",
+            "GITHUB_SERVER_URL": "https://github.com",
+            "GITHUB_REPOSITORY": "user/repo",
+            "GITHUB_RUN_ID": "12345",
+        }
+        with patch.dict("os.environ", env):
+            mock_run.side_effect = subprocess.CalledProcessError(1, "gh")
+            # Should not raise
+            fetch_versions.create_regression_issue("actions/repo-a")
+
+    @patch("fetch_versions.subprocess.run")
+    def test_issue_body_contains_workflow_link(self, mock_run):
+        """Issue body includes workflow run link when CI env vars are set."""
+        env = {
+            "GITHUB_ACTIONS": "true",
+            "GITHUB_SERVER_URL": "https://github.com",
+            "GITHUB_REPOSITORY": "user/repo",
+            "GITHUB_RUN_ID": "12345",
+        }
+        with patch.dict("os.environ", env):
+            mock_run.return_value = MagicMock(stdout="", returncode=0)
+            fetch_versions.create_regression_issue("actions/repo-a")
+
+        create_call = mock_run.call_args_list[2]
+        body_idx = create_call[0][0].index("--body")
+        body = create_call[0][0][body_idx + 1]
+        self.assertIn(
+            "https://github.com/user/repo/actions/runs/12345", body
+        )
 
 
 if __name__ == "__main__":

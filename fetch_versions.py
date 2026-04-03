@@ -484,6 +484,124 @@ def generate_index_json() -> None:
     print(f"Generated {INDEX_FILE}")
 
 
+def detect_regressions(
+    old_unversioned: set[str],
+    new_unversioned: set[str],
+    old_org_unversioned: dict[str, set[str]],
+    new_org_unversioned: dict[str, set[str]],
+) -> list[str]:
+    """Return sorted list of repo refs that regressed from versioned to unversioned."""
+    regressions: set[str] = set()
+
+    # Main org regressions
+    regressions.update(new_unversioned - old_unversioned)
+
+    # Per-org regressions
+    all_orgs = set(old_org_unversioned.keys()) | set(new_org_unversioned.keys())
+    for org in all_orgs:
+        old_set = old_org_unversioned.get(org, set())
+        new_set = new_org_unversioned.get(org, set())
+        regressions.update(new_set - old_set)
+
+    return sorted(regressions)
+
+
+def create_regression_issue(repo_ref: str) -> None:
+    """Create a GitHub issue alerting that a repo regressed to unversioned.
+
+    Only runs when GITHUB_ACTIONS env var is set (i.e., in CI).
+    Skips if an open regression issue already exists for this repo.
+    """
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        print(
+            f"Warning: skipping issue creation for {repo_ref} (not running in CI)",
+            file=sys.stderr,
+        )
+        return
+
+    try:
+        # Check for existing open regression issue
+        result = subprocess.run(
+            [
+                "gh",
+                "issue",
+                "list",
+                "--label",
+                "regression",
+                "--state",
+                "open",
+                "--search",
+                f"Regression: {repo_ref}",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        if result.stdout.strip():
+            print(f"Skipping {repo_ref}: existing open regression issue found")
+            return
+
+        # Ensure label exists
+        subprocess.run(
+            [
+                "gh",
+                "label",
+                "create",
+                "regression",
+                "--color",
+                "B60205",
+                "--description",
+                "Repo regressed from versioned to unversioned",
+                "--force",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+
+        # Build workflow run link
+        run_link = ""
+        if os.environ.get("GITHUB_SERVER_URL") and os.environ.get("GITHUB_REPOSITORY") and os.environ.get("GITHUB_RUN_ID"):
+            run_link = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+
+        body = (
+            f"The repo `{repo_ref}` was previously versioned but no version tags\n"
+            f"were found in the latest run.\n"
+            f"\n"
+            f"This may be a transient issue (API error, rate limit, etc.).\n"
+            f"\n"
+            f"**To resolve:**\n"
+            f"1. Investigate the repo manually\n"
+            f"2. If transient: remove `{repo_ref}` from the unversioned cache file and close this issue\n"
+            f"3. If genuinely unversioned: close this issue as not planned\n"
+        )
+        if run_link:
+            body += f"\n**Workflow run:** {run_link}\n"
+
+        subprocess.run(
+            [
+                "gh",
+                "issue",
+                "create",
+                "--title",
+                f"Regression: {repo_ref} moved to unversioned",
+                "--body",
+                body,
+                "--label",
+                "regression",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        print(f"Created regression issue for {repo_ref}")
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(
+            f"Warning: failed to create regression issue for {repo_ref}: {e}",
+            file=sys.stderr,
+        )
+
+
 def main():
     """Main function to fetch repos, get tags via API, and generate versions.txt."""
     # Load cached unversioned repos
@@ -713,6 +831,17 @@ def main():
 
     # Generate index.json
     generate_index_json()
+
+    # Detect and report regressions
+    regressions = detect_regressions(
+        unversioned, new_unversioned,
+        org_unversioned, new_org_unversioned,
+    )
+    if regressions:
+        print(f"\nDetected {len(regressions)} regressions:")
+        for repo_ref in regressions:
+            print(f"  - {repo_ref}")
+            create_regression_issue(repo_ref)
 
 
 if __name__ == "__main__":

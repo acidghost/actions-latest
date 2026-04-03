@@ -34,4 +34,3 @@ actions/toolkit
 actions/typescript-action
 actions/versions-package-tools
 actions/virtual-environments-packages
-jdx/mise-action
