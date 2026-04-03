@@ -1276,6 +1276,71 @@ class TestDetectRegressions(unittest.TestCase):
         result = fetch_versions.detect_regressions(set(), set(), {}, {})
         self.assertEqual(result, [])
 
+    def test_old_versioned_filters_false_positive(self):
+        """Repos not in old_versioned are excluded even if in new unversioned."""
+        old: set[str] = set()
+        new = {"actions/repo-a", "actions/repo-b"}
+        old_versioned = {"actions/repo-a"}
+        result = fetch_versions.detect_regressions(
+            old, new, {}, {}, old_versioned
+        )
+        self.assertEqual(result, ["actions/repo-a"])
+
+    def test_old_versioned_none_no_filter(self):
+        """When old_versioned is None, no filtering is applied."""
+        old: set[str] = set()
+        new = {"actions/repo-a", "actions/repo-b"}
+        result = fetch_versions.detect_regressions(old, new, {}, {}, None)
+        self.assertEqual(result, ["actions/repo-a", "actions/repo-b"])
+
+    def test_old_versioned_filters_org_regression(self):
+        """Org repos not in old_versioned are excluded."""
+        old_org: dict[str, set[str]] = {}
+        new_org = {"aws-actions": {"aws-actions/repo-a", "aws-actions/repo-b"}}
+        old_versioned = {"aws-actions/repo-a"}
+        result = fetch_versions.detect_regressions(
+            set(), set(), old_org, new_org, old_versioned
+        )
+        self.assertEqual(result, ["aws-actions/repo-a"])
+
+
+class TestLoadVersionedRepos(unittest.TestCase):
+    """Tests for the load_versioned_repos function."""
+
+    def test_load_from_single_file(self):
+        """Test loading versioned repos from a single file."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            versions_file = Path(tmpdir) / "versions.txt"
+            versions_file.write_text("actions/setup-python@v5\nactions/checkout@v6\n")
+            result = fetch_versions.load_versioned_repos(versions_file)
+            self.assertEqual(result, {"actions/setup-python", "actions/checkout"})
+
+    def test_load_from_multiple_files(self):
+        """Test loading versioned repos from multiple files."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            versions_file = Path(tmpdir) / "versions.txt"
+            org_file = Path(tmpdir) / "aws-actions-versions.txt"
+            versions_file.write_text("actions/setup-python@v5\n")
+            org_file.write_text("aws-actions/configure-aws-credentials@v6\n")
+            result = fetch_versions.load_versioned_repos(versions_file, org_file)
+            self.assertEqual(
+                result,
+                {"actions/setup-python", "aws-actions/configure-aws-credentials"},
+            )
+
+    def test_load_missing_file(self):
+        """Test loading when file doesn't exist."""
+        result = fetch_versions.load_versioned_repos(Path("/nonexistent/versions.txt"))
+        self.assertEqual(result, set())
+
+    def test_load_empty_file(self):
+        """Test loading from an empty file."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            versions_file = Path(tmpdir) / "versions.txt"
+            versions_file.write_text("")
+            result = fetch_versions.load_versioned_repos(versions_file)
+            self.assertEqual(result, set())
+
 
 class TestCreateRegressionIssue(unittest.TestCase):
     """Tests for the create_regression_issue function."""

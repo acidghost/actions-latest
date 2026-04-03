@@ -484,13 +484,31 @@ def generate_index_json() -> None:
     print(f"Generated {INDEX_FILE}")
 
 
+def load_versioned_repos(*files: Path) -> set[str]:
+    """Load repo refs from versions files (lines of 'org/repo@tag')."""
+    repos: set[str] = set()
+    for path in files:
+        if path.exists():
+            for line in path.read_text().splitlines():
+                line = line.strip()
+                if line and "@" in line:
+                    repos.add(line.split("@")[0])
+    return repos
+
+
 def detect_regressions(
     old_unversioned: set[str],
     new_unversioned: set[str],
     old_org_unversioned: dict[str, set[str]],
     new_org_unversioned: dict[str, set[str]],
+    old_versioned: set[str] | None = None,
 ) -> list[str]:
-    """Return sorted list of repo refs that regressed from versioned to unversioned."""
+    """Return sorted list of repo refs that regressed from versioned to unversioned.
+
+    If old_versioned is provided, only repos that were previously versioned
+    (present in old versions files) are flagged as regressions. This prevents
+    false positives from cache loading inconsistencies.
+    """
     regressions: set[str] = set()
 
     # Main org regressions
@@ -502,6 +520,10 @@ def detect_regressions(
         old_set = old_org_unversioned.get(org, set())
         new_set = new_org_unversioned.get(org, set())
         regressions.update(new_set - old_set)
+
+    # Filter to only repos that were previously versioned
+    if old_versioned is not None:
+        regressions &= old_versioned
 
     return sorted(regressions)
 
@@ -832,10 +854,17 @@ def main():
     # Generate index.json
     generate_index_json()
 
+    # Load old versioned repos for regression detection
+    old_versioned_files = [VERSIONS_FILE] + [
+        get_org_versions_file(org) for org in ADDITIONAL_ORGS
+    ]
+    old_versioned = load_versioned_repos(*old_versioned_files)
+
     # Detect and report regressions
     regressions = detect_regressions(
         unversioned, new_unversioned,
         org_unversioned, new_org_unversioned,
+        old_versioned,
     )
     if regressions:
         print(f"\nDetected {len(regressions)} regressions:")
