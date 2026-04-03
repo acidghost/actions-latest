@@ -1086,22 +1086,66 @@ class TestLoadVersionedRepos(unittest.TestCase):
             self.assertEqual(result, set())
 
 
+class TestReportRegression(unittest.TestCase):
+    """Tests for the report_regression function."""
+
+    def test_report_regression_outputs_to_stderr(self):
+        """report_regression prints regression details to stderr."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            import io
+
+            stderr_capture = io.StringIO()
+            with patch.object(fetch_versions, "SCRIPT_DIR", Path(tmpdir)):
+                with patch("sys.stderr", stderr_capture):
+                    fetch_versions.report_regression("actions/repo-a")
+
+            output = stderr_capture.getvalue()
+            self.assertIn("REGRESSION: actions/repo-a", output)
+            self.assertIn("previously versioned", output)
+            self.assertIn(
+                f"{fetch_versions.GITHUB_API_URL}/repos/actions/repo-a/tags", output
+            )
+
+    def test_report_regression_transient_hint(self):
+        """report_regression mentions transient issues."""
+        import io
+
+        stderr_capture = io.StringIO()
+        with patch("sys.stderr", stderr_capture):
+            fetch_versions.report_regression("docker/build-push-action")
+
+        output = stderr_capture.getvalue()
+        self.assertIn("transient", output)
+
+
 class TestCreateRegressionIssue(unittest.TestCase):
     """Tests for the create_regression_issue function."""
 
     @patch("fetch_versions.subprocess.run")
-    def test_ci_gate_not_in_ci(self, mock_run):
-        """When GITHUB_ACTIONS is not set, no gh commands are run."""
+    def test_not_in_ci_reports_regression(self, mock_run):
+        """When GITHUB_ACTIONS is not set, regression is reported to stderr."""
+        import io
+
+        stderr_capture = io.StringIO()
         with patch.dict("os.environ", {}, clear=True):
-            fetch_versions.create_regression_issue("actions/repo-a")
+            with patch("sys.stderr", stderr_capture):
+                fetch_versions.create_regression_issue("actions/repo-a")
         mock_run.assert_not_called()
+        output = stderr_capture.getvalue()
+        self.assertIn("REGRESSION: actions/repo-a", output)
 
     @patch("fetch_versions.subprocess.run")
-    def test_ci_gate_false_value(self, mock_run):
-        """When GITHUB_ACTIONS is not 'true', no gh commands are run."""
+    def test_not_true_reports_regression(self, mock_run):
+        """When GITHUB_ACTIONS is not 'true', regression is reported to stderr."""
+        import io
+
+        stderr_capture = io.StringIO()
         with patch.dict("os.environ", {"GITHUB_ACTIONS": "false"}):
-            fetch_versions.create_regression_issue("actions/repo-a")
+            with patch("sys.stderr", stderr_capture):
+                fetch_versions.create_regression_issue("actions/repo-a")
         mock_run.assert_not_called()
+        output = stderr_capture.getvalue()
+        self.assertIn("REGRESSION: actions/repo-a", output)
 
     @patch("fetch_versions.subprocess.run")
     def test_ci_gate_creates_issue(self, mock_run):

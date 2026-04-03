@@ -549,17 +549,31 @@ def detect_regressions(
     return sorted(regressions)
 
 
+def report_regression(repo_ref: str) -> None:
+    """Report a regression to stderr when not running in CI."""
+    print(
+        f"REGRESSION: {repo_ref} was previously versioned but no version tags found",
+        file=sys.stderr,
+    )
+    print(
+        f"  This may be a transient issue (API error, rate limit, etc.).",
+        file=sys.stderr,
+    )
+    print(
+        f"  Check: {GITHUB_API_URL}/repos/{repo_ref}/tags",
+        file=sys.stderr,
+    )
+
+
 def create_regression_issue(repo_ref: str) -> None:
     """Create a GitHub issue alerting that a repo regressed to unversioned.
 
     Only runs when GITHUB_ACTIONS env var is set (i.e., in CI).
+    Reports to stderr when not in CI.
     Skips if an open regression issue already exists for this repo.
     """
     if os.environ.get("GITHUB_ACTIONS") != "true":
-        print(
-            f"Warning: skipping issue creation for {repo_ref} (not running in CI)",
-            file=sys.stderr,
-        )
+        report_regression(repo_ref)
         return
 
     try:
