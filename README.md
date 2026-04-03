@@ -173,7 +173,7 @@ actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
 astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
 dependabot/fetch-metadata@ffa630c65fa7e0ecfa0625b5ceda64399aea1b36 # v3.0.0
 docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
-docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
 docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
 docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
@@ -181,7 +181,7 @@ dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
-taiki-e/install-action@0cccd59f03b32c54f0db097c518c320bfc8c73b3 # v2.71.1
+taiki-e/install-action@d858f8113943481093e02986a7586a4819a3bfd6 # v2.71.2
 ```
 <!-- VERSIONS_SHA_END -->
 
