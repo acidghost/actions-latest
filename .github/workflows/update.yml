@@ -33,9 +33,11 @@ jobs:
         run: python fetch_versions.py
 
       - name: Commit changes
+        env:
+          LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add *.txt index.json README.md
-          git diff --staged --quiet || git commit -m 'chore: update versions'
+          git diff --staged --quiet || git commit -m 'chore: update versions' -m "Link: $LINK"
           git push
