@@ -17,13 +17,6 @@ import sys
 from pathlib import Path
 
 
-SCRIPT_DIR = Path(__file__).parent.resolve()
-VERSIONS_FILE = SCRIPT_DIR / "versions.txt"
-VERSIONS_SHA_FILE = SCRIPT_DIR / "versions-sha.txt"
-UNVERSIONED_FILE = SCRIPT_DIR / "unversioned.txt"
-README_FILE = SCRIPT_DIR / "README.md"
-INDEX_FILE = SCRIPT_DIR / "index.json"
-
 # Base URL with fallback
 BASE_URL = "https://acidghost.github.io/actions-latest/"
 
@@ -67,30 +60,19 @@ SKIP_REPOS: list[str] = [
 GITHUB_API_URL = "https://api.github.com"
 
 
-def parse_repo(repo_ref: str) -> tuple[str, str]:
-    """Parse 'org/repo' format into (org, repo_name) tuple."""
-    parts = repo_ref.split("/")
-    if len(parts) != 2:
-        raise ValueError(f"Invalid repo format: {repo_ref}, expected 'org/repo'")
-    return (parts[0], parts[1])
+SCRIPT_DIR = Path(__file__).parent.resolve()
 
 
-def load_unversioned() -> set[str]:
-    """Load the set of repos known to have no vINTEGER tags."""
-    if not UNVERSIONED_FILE.exists():
-        return set()
-    return set(
-        line.strip()
-        for line in UNVERSIONED_FILE.read_text().splitlines()
-        if line.strip()
-    )
+def get_versions_file() -> Path:
+    return SCRIPT_DIR / "versions.txt"
 
 
-def save_unversioned(repos: set[str]) -> None:
-    """Save the set of repos known to have no vINTEGER tags."""
-    with open(UNVERSIONED_FILE, "w") as f:
-        for repo_name in sorted(repos):
-            f.write(f"{repo_name}\n")
+def get_versions_sha_file() -> Path:
+    return SCRIPT_DIR / "versions-sha.txt"
+
+
+def get_unversioned_file() -> Path:
+    return SCRIPT_DIR / "unversioned.txt"
 
 
 def get_org_versions_file(org: str) -> Path:
@@ -106,6 +88,41 @@ def get_org_versions_sha_file(org: str) -> Path:
 def get_org_unversioned_file(org: str) -> Path:
     """Get the unversioned cache file path for a specific org."""
     return SCRIPT_DIR / f"{org}-unversioned.txt"
+
+
+def get_readme_file() -> Path:
+    return SCRIPT_DIR / "README.md"
+
+
+def get_index_file() -> Path:
+    return SCRIPT_DIR / "index.json"
+
+
+def parse_repo(repo_ref: str) -> tuple[str, str]:
+    """Parse 'org/repo' format into (org, repo_name) tuple."""
+    parts = repo_ref.split("/")
+    if len(parts) != 2:
+        raise ValueError(f"Invalid repo format: {repo_ref}, expected 'org/repo'")
+    return (parts[0], parts[1])
+
+
+def load_unversioned() -> set[str]:
+    """Load the set of repos known to have no vINTEGER tags."""
+    unversioned_file = get_unversioned_file()
+    if not unversioned_file.exists():
+        return set()
+    return set(
+        line.strip()
+        for line in unversioned_file.read_text().splitlines()
+        if line.strip()
+    )
+
+
+def save_unversioned(repos: set[str]) -> None:
+    """Save the set of repos known to have no vINTEGER tags."""
+    with open(get_unversioned_file(), "w") as f:
+        for repo_name in sorted(repos):
+            f.write(f"{repo_name}\n")
 
 
 def get_org_readme_markers(org: str) -> tuple[str, str]:
@@ -142,11 +159,12 @@ def save_org_unversioned(org: str, repos: set[str]) -> None:
 
 def update_readme(versions_content: str) -> None:
     """Update the README.md with the latest versions in a fenced code block."""
-    if not README_FILE.exists():
-        print(f"Warning: {README_FILE} not found, skipping README update")
+    readme_file = get_readme_file()
+    if not readme_file.exists():
+        print(f"Warning: {readme_file} not found, skipping README update")
         return
 
-    readme_text = README_FILE.read_text()
+    readme_text = readme_file.read_text()
 
     # Build the new section content
     new_section = f"""{README_START_MARKER}
@@ -168,17 +186,18 @@ def update_readme(versions_content: str) -> None:
         # Append to end of file
         new_readme = readme_text.rstrip() + "\n\n" + new_section + "\n"
 
-    README_FILE.write_text(new_readme)
-    print(f"Updated {README_FILE} with latest versions")
+    readme_file.write_text(new_readme)
+    print(f"Updated {readme_file} with latest versions")
 
 
 def update_readme_sha(versions_sha_content: str) -> None:
     """Update the README.md with the latest SHA-pinned versions in a fenced code block."""
-    if not README_FILE.exists():
-        print(f"Warning: {README_FILE} not found, skipping README SHA update")
+    readme_file = get_readme_file()
+    if not readme_file.exists():
+        print(f"Warning: {readme_file} not found, skipping README SHA update")
         return
 
-    readme_text = README_FILE.read_text()
+    readme_text = readme_file.read_text()
 
     # Build the new section content
     new_section = f"""{README_SHA_START_MARKER}
@@ -202,17 +221,18 @@ def update_readme_sha(versions_sha_content: str) -> None:
         # Append to end of file
         new_readme = readme_text.rstrip() + "\n\n" + new_section + "\n"
 
-    README_FILE.write_text(new_readme)
-    print(f"Updated {README_FILE} with SHA-pinned versions")
+    readme_file.write_text(new_readme)
+    print(f"Updated {readme_file} with SHA-pinned versions")
 
 
 def update_readme_for_org(org: str, versions_content: str) -> None:
     """Update the README.md with a specific org's versions in a collapsible section."""
-    if not README_FILE.exists():
-        print(f"Warning: {README_FILE} not found, skipping README update for {org}")
+    readme_file = get_readme_file()
+    if not readme_file.exists():
+        print(f"Warning: {readme_file} not found, skipping README update for {org}")
         return
 
-    readme_text = README_FILE.read_text()
+    readme_text = readme_file.read_text()
     start_marker, end_marker = get_org_readme_markers(org)
 
     # Build the new section content
@@ -237,17 +257,18 @@ def update_readme_for_org(org: str, versions_content: str) -> None:
         # Append to end of file
         new_readme = readme_text.rstrip() + "\n\n" + new_section + "\n"
 
-    README_FILE.write_text(new_readme)
+    readme_file.write_text(new_readme)
     print(f"Updated README with {org} versions")
 
 
 def update_readme_sha_for_org(org: str, versions_sha_content: str) -> None:
     """Update the README.md with a specific org's SHA-pinned versions in a collapsible section."""
-    if not README_FILE.exists():
-        print(f"Warning: {README_FILE} not found, skipping README SHA update for {org}")
+    readme_file = get_readme_file()
+    if not readme_file.exists():
+        print(f"Warning: {readme_file} not found, skipping README SHA update for {org}")
         return
 
-    readme_text = README_FILE.read_text()
+    readme_text = readme_file.read_text()
     start_marker, end_marker = get_org_readme_sha_markers(org)
 
     # Build the new section content
@@ -272,7 +293,7 @@ def update_readme_sha_for_org(org: str, versions_sha_content: str) -> None:
         # Append to end of file
         new_readme = readme_text.rstrip() + "\n\n" + new_section + "\n"
 
-    README_FILE.write_text(new_readme)
+    readme_file.write_text(new_readme)
     print(f"Updated README with {org} SHA-pinned versions")
 
 
@@ -478,10 +499,10 @@ def generate_index_json() -> None:
         }
 
     # Write index.json
-    with open(INDEX_FILE, "w") as f:
+    with open(get_index_file(), "w") as f:
         json.dump(index, f, indent=2)
 
-    print(f"Generated {INDEX_FILE}")
+    print(f"Generated {get_index_file()}")
 
 
 def load_versioned_repos(*files: Path) -> set[str]:
@@ -583,7 +604,11 @@ def create_regression_issue(repo_ref: str) -> None:
 
         # Build workflow run link
         run_link = ""
-        if os.environ.get("GITHUB_SERVER_URL") and os.environ.get("GITHUB_REPOSITORY") and os.environ.get("GITHUB_RUN_ID"):
+        if (
+            os.environ.get("GITHUB_SERVER_URL")
+            and os.environ.get("GITHUB_REPOSITORY")
+            and os.environ.get("GITHUB_RUN_ID")
+        ):
             run_link = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
 
         body = (
@@ -774,7 +799,7 @@ def main():
     )
 
     # Write versions.txt
-    with open(VERSIONS_FILE, "w") as f:
+    with open(get_versions_file(), "w") as f:
         f.write(versions_content)
 
     # Build versions-sha.txt content
@@ -787,7 +812,7 @@ def main():
     )
 
     # Write versions-sha.txt
-    with open(VERSIONS_SHA_FILE, "w") as f:
+    with open(get_versions_sha_file(), "w") as f:
         f.write(versions_sha_content)
 
     # Update README.md with the versions
@@ -799,9 +824,11 @@ def main():
     # Update unversioned.txt
     save_unversioned(new_unversioned)
 
-    print(f"\nWrote {len(versions)} versions to {VERSIONS_FILE}")
-    print(f"Wrote {len(versions_sha)} versions with SHAs to {VERSIONS_SHA_FILE}")
-    print(f"Cached {len(new_unversioned)} unversioned repos to {UNVERSIONED_FILE}")
+    print(f"\nWrote {len(versions)} versions to {get_versions_file()}")
+    print(f"Wrote {len(versions_sha)} versions with SHAs to {get_versions_sha_file()}")
+    print(
+        f"Cached {len(new_unversioned)} unversioned repos to {get_unversioned_file()}"
+    )
 
     # Write per-org files and update README sections
     for additional_org in ADDITIONAL_ORGS:
@@ -855,15 +882,17 @@ def main():
     generate_index_json()
 
     # Load old versioned repos for regression detection
-    old_versioned_files = [VERSIONS_FILE] + [
+    old_versioned_files = [get_versions_file()] + [
         get_org_versions_file(org) for org in ADDITIONAL_ORGS
     ]
     old_versioned = load_versioned_repos(*old_versioned_files)
 
     # Detect and report regressions
     regressions = detect_regressions(
-        unversioned, new_unversioned,
-        org_unversioned, new_org_unversioned,
+        unversioned,
+        new_unversioned,
+        org_unversioned,
+        new_org_unversioned,
         old_versioned,
     )
     if regressions:
