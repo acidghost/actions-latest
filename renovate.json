@@ -6,7 +6,7 @@
   "minimumReleaseAge": "3 days",
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch", "minor"],
+      "matchUpdateTypes": ["patch"],
       "addLabels": ["lcm/approve"]
     }
   ]
