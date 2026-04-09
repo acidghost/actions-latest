@@ -34,7 +34,7 @@ actions/upload-artifact@v7
 actions/upload-pages-artifact@v4
 actions/upload-release-asset@v1
 astral-sh/setup-uv@v7
-dependabot/fetch-metadata@v2
+dependabot/fetch-metadata@v3
 docker/build-push-action@v7
 docker/login-action@v4
 docker/metadata-action@v6
