@@ -96,7 +96,7 @@ actions/dependency-review-action@v3
 actions/deploy-pages@v5
 actions/download-artifact@v8
 actions/first-interaction@v3
-actions/github-script@v8
+actions/github-script@v9
 actions/go-dependency-submission@v2
 actions/hello-world-docker-action@v2
 actions/hello-world-javascript-action@v1
@@ -151,7 +151,7 @@ actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9
 actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
 actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.1.0
-actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
 actions/go-dependency-submission@f35d5c9af13ce9cc32f7930b171e315e878f6921 # v2.0.3
 actions/hello-world-docker-action@0b406c0e14ed4b1853113f84b89aa6cdf762e340 # v2
 actions/hello-world-javascript-action@ae53f59fd519c0006ceb494ecbfed5f05d4151cf # v1
@@ -183,7 +183,7 @@ golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 ruby/setup-ruby@e65c17d16e57e481586a6a5a0282698790062f92 # v1.300.0
-taiki-e/install-action@80e6af7a2ec7f280fffe2d0a9d3a12a9d11d86e9 # v2.75.1
+taiki-e/install-action@b8be7f5e140177087325943c4a8e169d01c59b3d # v2.75.3
 ```
 <!-- VERSIONS_SHA_END -->
 
