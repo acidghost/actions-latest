@@ -44,5 +44,5 @@ dorny/paths-filter@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.302.0
+ruby/setup-ruby@v1.305.0
 taiki-e/install-action@v2
