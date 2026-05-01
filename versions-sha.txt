@@ -20,7 +20,6 @@ actions/hello-world-javascript-action@ae53f59fd519c0006ceb494ecbfed5f05d4151cf #
 actions/javascript-action@4be183afbd08ddadedcf09f17e8e112326894107 # v1.0.1
 actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
 actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
-actions/setup-copilot@01f2415f3de9e622b1cc969773f108741021a606 # v0.0.5
 actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
 actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0

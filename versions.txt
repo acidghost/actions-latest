@@ -20,7 +20,6 @@ actions/hello-world-javascript-action@v1
 actions/javascript-action@v1
 actions/jekyll-build-pages@v1
 actions/labeler@v6
-actions/setup-copilot@v0
 actions/setup-dotnet@v5
 actions/setup-elixir@v1
 actions/setup-go@v6

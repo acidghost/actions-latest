@@ -103,7 +103,6 @@ actions/hello-world-javascript-action@v1
 actions/javascript-action@v1
 actions/jekyll-build-pages@v1
 actions/labeler@v6
-actions/setup-copilot@v0
 actions/setup-dotnet@v5
 actions/setup-elixir@v1
 actions/setup-go@v6
@@ -159,7 +158,6 @@ actions/hello-world-javascript-action@ae53f59fd519c0006ceb494ecbfed5f05d4151cf #
 actions/javascript-action@4be183afbd08ddadedcf09f17e8e112326894107 # v1.0.1
 actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
 actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
-actions/setup-copilot@01f2415f3de9e622b1cc969773f108741021a606 # v0.0.5
 actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
 actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
@@ -230,8 +228,8 @@ aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
 ```
 aws-actions/amazon-ecr-login@19d944daaa35f0fa1d3f7f8af1d3f2e5de25c5b7 # v2.1.4
 aws-actions/amazon-ecs-deploy-express-service@2088fb17efe80c13c2e40a6a1a7e4a4b12f88041 # v1.2.1
-aws-actions/amazon-ecs-deploy-task-definition@fc8fc60f3a60ffd500fcb13b209c59d221ac8c8c # v2.6.1
-aws-actions/amazon-ecs-render-task-definition@77954e213ba1f9f9cb016b86a1d4f6fcdea0d57e # v1.8.4
+aws-actions/amazon-ecs-deploy-task-definition@a310a830f5c14e583e35d84e4e1ec7dd177c3c9c # v2.6.2
+aws-actions/amazon-ecs-render-task-definition@6853cfae8c3a7d978fbf68b5a55453395541dfbb # v1.8.5
 aws-actions/amazon-eks-fargate@fa91b1ce6e342eb17a1d57df976506d02f074640 # v0.1.1
 aws-actions/application-observability-for-aws@95bb59e4538ba9ef746805d8a2bbbe531ba2a728 # v1.1.1
 aws-actions/aws-cloudformation-github-deploy@81e3b03d2266bcb76c4bcc37a7d71d9cb67838bb # v2.2.0
