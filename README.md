@@ -183,7 +183,7 @@ golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@1a80836c5c9d9e5755a25cb59ec6f45a3b5f41a8 # v7.2.1
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
-taiki-e/install-action@7769b73c2ec98c38dfcf2e18c83cfd4880c038c1 # v2.75.27
+taiki-e/install-action@51cd0b8c0499559d9a4d75c0f5c67bec3a894ec8 # v2.75.28
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -211,7 +211,7 @@ aws-actions/closed-issue-message@v2
 aws-actions/cloudformation-aws-iam-policy-validator@v1.0.4
 aws-actions/codeguru-security@v1
 aws-actions/configure-aws-credentials@v6
-aws-actions/setup-sam@v2
+aws-actions/setup-sam@v3
 aws-actions/stale-issue-cleanup@v6
 aws-actions/sustainability-scanner@v1
 aws-actions/terraform-aws-iam-policy-validator@v1.0.3
@@ -243,7 +243,7 @@ aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
 aws-actions/cloudformation-aws-iam-policy-validator@aa5ca59693ba89d200db1d2b3af4b60989627bdc # v1.0.4
 aws-actions/codeguru-security@44877802cfee29abce47f8ba12b8417d70d01a9b # v1.2.2
 aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
-aws-actions/setup-sam@f84ec7d548307efafe33230528756de3c5841a17 # v2
+aws-actions/setup-sam@89ddb14d60e682855e3fea4be85b3c56485de310 # v3
 aws-actions/stale-issue-cleanup@0604f2edf84a3a66bc0dfb4a30eb07814cbdf440 # v7.1.1
 aws-actions/sustainability-scanner@d6067411fc5290a836e3ebcf388c746d83cf0e9f # v1.3.1
 aws-actions/terraform-aws-iam-policy-validator@1cd3c484b95b6c3d9e42ca1797d89ae74eb29ede # v1.0.3

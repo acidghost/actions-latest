@@ -15,7 +15,7 @@ aws-actions/closed-issue-message@v2
 aws-actions/cloudformation-aws-iam-policy-validator@v1.0.4
 aws-actions/codeguru-security@v1
 aws-actions/configure-aws-credentials@v6
-aws-actions/setup-sam@v2
+aws-actions/setup-sam@v3
 aws-actions/stale-issue-cleanup@v6
 aws-actions/sustainability-scanner@v1
 aws-actions/terraform-aws-iam-policy-validator@v1.0.3
