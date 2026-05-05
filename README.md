@@ -81,7 +81,7 @@ This is a personal fork of the [actions-latest](https://github.com/simonw/action
 ## Latest versions
 
 ```
-actions/add-to-project@v1.0.2
+actions/add-to-project@v2.0.0
 actions/ai-inference@v2
 actions/attest@v4
 actions/attest-build-provenance@v4
@@ -136,7 +136,7 @@ taiki-e/install-action@v2
 ## Latest versions (SHA-pinned)
 
 ```
-actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
+actions/add-to-project@5afcf98fcd03f1c2f92c3c83f58ae24323cc57fd # v2.0.0
 actions/ai-inference@af6ad2c4ac4edf01884054fc3a6caa6d2567c13a # v2.0.8
 actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
 actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
@@ -183,7 +183,7 @@ golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@1a80836c5c9d9e5755a25cb59ec6f45a3b5f41a8 # v7.2.1
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
-taiki-e/install-action@db5fb34fa772531a3ece57ca434f579eb334e0fb # v2.75.30
+taiki-e/install-action@7ea35f098a7369cd23488403f58be9c491a6c55f # v2.77.0
 ```
 <!-- VERSIONS_SHA_END -->
 
