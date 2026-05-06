@@ -1,4 +1,4 @@
-actions/add-to-project@v2.0.0
+actions/add-to-project@v2
 actions/ai-inference@v2
 actions/attest@v4
 actions/attest-build-provenance@v4
