@@ -127,7 +127,7 @@ dorny/paths-filter@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.307.0
+ruby/setup-ruby@v1.308.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -182,8 +182,8 @@ dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
 golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
 goreleaser/goreleaser-action@1a80836c5c9d9e5755a25cb59ec6f45a3b5f41a8 # v7.2.1
 jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
-ruby/setup-ruby@6aaa311d81eba98ae12eaffbcb63296ace0efcde # v1.307.0
-taiki-e/install-action@184183c2401be73c3bf42c2e61268aa5855379c1 # v2.78.1
+ruby/setup-ruby@97ecb7b512899eb71ab1bf2310a624c6f1589ac6 # v1.308.0
+taiki-e/install-action@3771e22aa892e03fd35585fae288baad1755695c # v2.78.2
 ```
 <!-- VERSIONS_SHA_END -->
 
