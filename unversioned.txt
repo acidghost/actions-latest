@@ -7,6 +7,7 @@ actions/container-action
 actions/container-toolkit-action
 actions/create-win-version
 actions/example-services
+actions/gh-drives-preview
 actions/github-drives-preview
 actions/go-versions
 actions/gradle-build-tools-actions
