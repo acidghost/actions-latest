@@ -183,7 +183,7 @@ golangci/golangci-lint-action@82606bf257cbaff209d206a39f5134f0cfbfd2ee # v9.2.1
 goreleaser/goreleaser-action@5daf1e915a5f0af01ddbcd89a43b8061ff4f1a89 # v7.2.2
 jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
 ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1.312.0
-taiki-e/install-action@0631aa6515c7d545823c67cfae7ef4fc7f490154 # v2.81.8
+taiki-e/install-action@fd2f5e3d644b484055ebf4268f474c565f148f25 # v2.81.9
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -247,7 +247,7 @@ aws-actions/setup-sam@89ddb14d60e682855e3fea4be85b3c56485de310 # v3
 aws-actions/stale-issue-cleanup@0604f2edf84a3a66bc0dfb4a30eb07814cbdf440 # v7.1.1
 aws-actions/sustainability-scanner@d6067411fc5290a836e3ebcf388c746d83cf0e9f # v1.3.1
 aws-actions/terraform-aws-iam-policy-validator@1cd3c484b95b6c3d9e42ca1797d89ae74eb29ede # v1.0.3
-aws-actions/vulnerability-scan-github-action-for-amazon-inspector@e8668b62b5e6d64db325500b1399c92a42b5fdf0 # v1.4.2
+aws-actions/vulnerability-scan-github-action-for-amazon-inspector@f5a63f71de9d790c7c42da74d59efb2c017bdcac # v1.5.0
 ```
 
 </details>
