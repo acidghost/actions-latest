@@ -181,9 +181,9 @@ docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
 dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
 golangci/golangci-lint-action@82606bf257cbaff209d206a39f5134f0cfbfd2ee # v9.2.1
 goreleaser/goreleaser-action@5daf1e915a5f0af01ddbcd89a43b8061ff4f1a89 # v7.2.2
-jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
 ruby/setup-ruby@89f90524b88a01fe6e0b732220432cc6142926af # v1.313.0
-taiki-e/install-action@15449e3094499af05d8d964a1c884208e4b8b595 # v2.81.11
+taiki-e/install-action@b8cecb83565409bcc297b2df6e77f030b2a468d5 # v2.82.0
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -211,6 +211,7 @@ aws-actions/closed-issue-message@v2
 aws-actions/cloudformation-aws-iam-policy-validator@v1.0.4
 aws-actions/codeguru-security@v1
 aws-actions/configure-aws-credentials@v6
+aws-actions/devops-agent-qa@v1
 aws-actions/setup-sam@v3
 aws-actions/stale-issue-cleanup@v6
 aws-actions/sustainability-scanner@v1
@@ -243,6 +244,7 @@ aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
 aws-actions/cloudformation-aws-iam-policy-validator@aa5ca59693ba89d200db1d2b3af4b60989627bdc # v1.0.4
 aws-actions/codeguru-security@44877802cfee29abce47f8ba12b8417d70d01a9b # v1.2.2
 aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6.2.0
+aws-actions/devops-agent-qa@612e51ffad87aa5c7a6dd62444721882c841957f # v1
 aws-actions/setup-sam@89ddb14d60e682855e3fea4be85b3c56485de310 # v3
 aws-actions/stale-issue-cleanup@0604f2edf84a3a66bc0dfb4a30eb07814cbdf440 # v7.1.1
 aws-actions/sustainability-scanner@d6067411fc5290a836e3ebcf388c746d83cf0e9f # v1.3.1
