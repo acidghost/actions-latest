@@ -158,11 +158,11 @@ actions/hello-world-javascript-action@ae53f59fd519c0006ceb494ecbfed5f05d4151cf #
 actions/javascript-action@4be183afbd08ddadedcf09f17e8e112326894107 # v1.0.1
 actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
 actions/labeler@f27b608878404679385c85cfa523b85ccb86e213 # v6.1.0
-actions/setup-dotnet@9a946fdbd5fb07b82b2f5a4466058b876ab72bb2 # v5.3.0
+actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
 actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6.5.0
 actions/setup-haskell@048c29979717135f04282c42c2186bb5945b2d8f # v1.1.4
-actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287 # v5.3.0
+actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
 actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
 actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
 actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1.1.3
@@ -183,7 +183,7 @@ golangci/golangci-lint-action@82606bf257cbaff209d206a39f5134f0cfbfd2ee # v9.2.1
 goreleaser/goreleaser-action@5daf1e915a5f0af01ddbcd89a43b8061ff4f1a89 # v7.2.2
 jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
 ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
-taiki-e/install-action@ace6ebe54a6a0c86dfb5f7764b17f793b6925bc3 # v2.82.3
+taiki-e/install-action@682e7d9e49c5e653d371fc6adbda67653461378a # v2.82.4
 ```
 <!-- VERSIONS_SHA_END -->
 
