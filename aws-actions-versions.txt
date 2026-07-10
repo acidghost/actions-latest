@@ -16,6 +16,7 @@ aws-actions/cloudformation-aws-iam-policy-validator@v1.0.4
 aws-actions/codeguru-security@v1
 aws-actions/configure-aws-credentials@v6
 aws-actions/devops-agent-qa@v1
+aws-actions/handle-non-labeled-issues@v1
 aws-actions/setup-sam@v3
 aws-actions/stale-issue-cleanup@v6
 aws-actions/sustainability-scanner@v1
