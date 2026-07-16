@@ -20,9 +20,9 @@ actions/hello-world-javascript-action@v1
 actions/javascript-action@v1
 actions/jekyll-build-pages@v1
 actions/labeler@v6
-actions/setup-dotnet@v5
+actions/setup-dotnet@v6
 actions/setup-elixir@v1
-actions/setup-go@v6
+actions/setup-go@v7
 actions/setup-haskell@v1
 actions/setup-java@v5
 actions/setup-node@v7
@@ -44,5 +44,5 @@ dorny/paths-filter@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.318.0
+ruby/setup-ruby@v1.319.0
 taiki-e/install-action@v2
