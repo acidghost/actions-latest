@@ -127,7 +127,7 @@ dorny/paths-filter@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.320.0
+ruby/setup-ruby@v1.321.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -182,8 +182,8 @@ dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
 golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
 jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
-ruby/setup-ruby@a30dfa457ad68707b8b910ac3a244714b61c0626 # v1.320.0
-taiki-e/install-action@a6b2e2dcd845ddd7f509ce4f3ed3d922b80cc5d9 # v2.84.0
+ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+taiki-e/install-action@c44f6b046f1c29ae5918b1e0bfdbb2f1813836fd # v2.84.1
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -244,7 +244,7 @@ aws-actions/aws-secretsmanager-get-secrets@2cb1a461cbd4865ac4299648312e4704c646c
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
 aws-actions/cloudformation-aws-iam-policy-validator@aa5ca59693ba89d200db1d2b3af4b60989627bdc # v1.0.4
 aws-actions/codeguru-security@44877802cfee29abce47f8ba12b8417d70d01a9b # v1.2.2
-aws-actions/configure-aws-credentials@517a711dbcd0e402f90c77e7e2f81e849156e31d # v6.2.2
+aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
 aws-actions/devops-agent-qa@612e51ffad87aa5c7a6dd62444721882c841957f # v1
 aws-actions/handle-non-labeled-issues@d6b11a820a09b58180471df5be076df19f05b9dd # v1.0.1
 aws-actions/setup-sam@89ddb14d60e682855e3fea4be85b3c56485de310 # v3
