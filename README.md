@@ -183,7 +183,7 @@ golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
 jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
-taiki-e/install-action@37f7c5781271959fb65b6b35224e28652ff2b63d # v2.87.0
+taiki-e/install-action@742a3317eac7bd62f91cd888b4eead5e784ba833 # v2.87.1
 ```
 <!-- VERSIONS_SHA_END -->
 
