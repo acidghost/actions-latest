@@ -244,7 +244,7 @@ aws-actions/aws-secretsmanager-get-secrets@2cb1a461cbd4865ac4299648312e4704c646c
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
 aws-actions/cloudformation-aws-iam-policy-validator@aa5ca59693ba89d200db1d2b3af4b60989627bdc # v1.0.4
 aws-actions/codeguru-security@44877802cfee29abce47f8ba12b8417d70d01a9b # v1.2.2
-aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+aws-actions/configure-aws-credentials@cbe3b392738ccf3f987d68400dafcf4b0624a56c # v6.2.4
 aws-actions/devops-agent-qa@3e6e4ff02bf14e05936b19c7369e299a6eb5c0f8 # v1
 aws-actions/handle-non-labeled-issues@d6b11a820a09b58180471df5be076df19f05b9dd # v1.0.1
 aws-actions/setup-sam@89ddb14d60e682855e3fea4be85b3c56485de310 # v3
