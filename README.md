@@ -162,7 +162,7 @@ actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
 actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
 actions/setup-haskell@048c29979717135f04282c42c2186bb5945b2d8f # v1.1.4
-actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
+actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
 actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
 actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
 actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1.1.3
@@ -183,7 +183,7 @@ golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
 jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
-taiki-e/install-action@d438492cf8a250514fa2d34b30bc3c0dc37c65ff # v2.87.8
+taiki-e/install-action@c3ec0de9ae7f1019cea21aa96aa0a895b9552063 # v2.87.9
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -240,7 +240,7 @@ aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61b
 aws-actions/aws-devicefarm-mobile-device-testing@5a6c9fbb66ca99cb92ce07381c8be038f654eff6 # v3
 aws-actions/aws-elasticbeanstalk-deploy@7883cdd454c162051bf6fc13389536b045149b4c # v1.0.8
 aws-actions/aws-lambda-deploy@d496277188b89f0be02d7a2216fc912c0427702a # v1.1.2
-aws-actions/aws-secretsmanager-get-secrets@2cb1a461cbd4865ac4299648312e4704c646cd53 # v3.0.1
+aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1c88 # v3.0.2
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
 aws-actions/cloudformation-aws-iam-policy-validator@aa5ca59693ba89d200db1d2b3af4b60989627bdc # v1.0.4
 aws-actions/codeguru-security@44877802cfee29abce47f8ba12b8417d70d01a9b # v1.2.2
