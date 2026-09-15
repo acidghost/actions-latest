@@ -127,7 +127,7 @@ dorny/paths-filter@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.321.0
+ruby/setup-ruby@v1.322.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -173,16 +173,16 @@ actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
 actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
 astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
 dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
-docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
+docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
 docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
 docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
-docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+docker/setup-buildx-action@594f3bf4285d9ea8dc53c9a0c9c4092420091003 # v4.4.0
 docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4.3.0
 dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
 golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
 jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
-ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+ruby/setup-ruby@bec3f19a76460dbe12f60def7d1a77585f07516c # v1.322.0
 taiki-e/install-action@3f74d7c16a4242f1c95561e98edc25d36adb4375 # v2.87.12
 ```
 <!-- VERSIONS_SHA_END -->
@@ -244,7 +244,7 @@ aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
 aws-actions/cloudformation-aws-iam-policy-validator@aa5ca59693ba89d200db1d2b3af4b60989627bdc # v1.0.4
 aws-actions/codeguru-security@44877802cfee29abce47f8ba12b8417d70d01a9b # v1.2.2
-aws-actions/configure-aws-credentials@cbe3b392738ccf3f987d68400dafcf4b0624a56c # v6.2.4
+aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
 aws-actions/devops-agent-qa@3e6e4ff02bf14e05936b19c7369e299a6eb5c0f8 # v1
 aws-actions/handle-non-labeled-issues@d6b11a820a09b58180471df5be076df19f05b9dd # v1.0.1
 aws-actions/setup-sam@89ddb14d60e682855e3fea4be85b3c56485de310 # v3
