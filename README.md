@@ -127,7 +127,7 @@ dorny/paths-filter@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.322.0
+ruby/setup-ruby@v1.323.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -176,14 +176,14 @@ dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
 docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
 docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
 docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
-docker/setup-buildx-action@594f3bf4285d9ea8dc53c9a0c9c4092420091003 # v4.4.0
-docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4.3.0
+docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
 dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
 golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
 jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
-ruby/setup-ruby@bec3f19a76460dbe12f60def7d1a77585f07516c # v1.322.0
-taiki-e/install-action@3f74d7c16a4242f1c95561e98edc25d36adb4375 # v2.87.12
+ruby/setup-ruby@984c0c890880bbf811283d6f09c4607c62d210a4 # v1.323.0
+taiki-e/install-action@26e9283f268b880168bdbd2c545dfcd60ec2c6ab # v2.87.13
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -238,7 +238,7 @@ aws-actions/aws-cloudformation-github-deploy@81e3b03d2266bcb76c4bcc37a7d71d9cb67
 aws-actions/aws-codebuild-run-build@7e46c3fa1c1f217e26a73712796b1f78938b534b # v1.0.19
 aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61bfb1 # v3
 aws-actions/aws-devicefarm-mobile-device-testing@5a6c9fbb66ca99cb92ce07381c8be038f654eff6 # v3
-aws-actions/aws-elasticbeanstalk-deploy@7883cdd454c162051bf6fc13389536b045149b4c # v1.0.8
+aws-actions/aws-elasticbeanstalk-deploy@fad9d97d1242de476eeebe3ca9a13b700f0e294a # v1.0.9
 aws-actions/aws-lambda-deploy@d496277188b89f0be02d7a2216fc912c0427702a # v1.1.2
 aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1c88 # v3.0.2
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2

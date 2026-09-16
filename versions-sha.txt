@@ -38,11 +38,11 @@ dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
 docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
 docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
 docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
-docker/setup-buildx-action@594f3bf4285d9ea8dc53c9a0c9c4092420091003 # v4.4.0
-docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4.3.0
+docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
 dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
 golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
 jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
-ruby/setup-ruby@bec3f19a76460dbe12f60def7d1a77585f07516c # v1.322.0
-taiki-e/install-action@3f74d7c16a4242f1c95561e98edc25d36adb4375 # v2.87.12
+ruby/setup-ruby@984c0c890880bbf811283d6f09c4607c62d210a4 # v1.323.0
+taiki-e/install-action@26e9283f268b880168bdbd2c545dfcd60ec2c6ab # v2.87.13
