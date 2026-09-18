@@ -127,7 +127,7 @@ dorny/paths-filter@v4
 golangci/golangci-lint-action@v9
 goreleaser/goreleaser-action@v7
 jdx/mise-action@v4
-ruby/setup-ruby@v1.323.0
+ruby/setup-ruby@v1.324.0
 taiki-e/install-action@v2
 ```
 <!-- VERSIONS_END -->
@@ -182,8 +182,8 @@ dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
 golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
 jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
-ruby/setup-ruby@984c0c890880bbf811283d6f09c4607c62d210a4 # v1.323.0
-taiki-e/install-action@26e9283f268b880168bdbd2c545dfcd60ec2c6ab # v2.87.13
+ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+taiki-e/install-action@76c2e6406e52637deed7160d77bded76bd83e06e # v2.87.14
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -238,7 +238,7 @@ aws-actions/aws-cloudformation-github-deploy@81e3b03d2266bcb76c4bcc37a7d71d9cb67
 aws-actions/aws-codebuild-run-build@7e46c3fa1c1f217e26a73712796b1f78938b534b # v1.0.19
 aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61bfb1 # v3
 aws-actions/aws-devicefarm-mobile-device-testing@5a6c9fbb66ca99cb92ce07381c8be038f654eff6 # v3
-aws-actions/aws-elasticbeanstalk-deploy@fad9d97d1242de476eeebe3ca9a13b700f0e294a # v1.0.9
+aws-actions/aws-elasticbeanstalk-deploy@dd5ddd5ba6d4ed614a60db58881028eddb7652cb # v1.1.0
 aws-actions/aws-lambda-deploy@d496277188b89f0be02d7a2216fc912c0427702a # v1.1.2
 aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1c88 # v3.0.2
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
