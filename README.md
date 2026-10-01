@@ -181,7 +181,7 @@ docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
 dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
 golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
-jdx/mise-action@9149ea85001c7435d5a66bb127d6a1b6227cb0a5 # v5.0.0
+jdx/mise-action@7a4e45a543138629540c9a1616d08632b893e492 # v5.0.1
 ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
 taiki-e/install-action@83ac0ad63c0167e6f06796fab0fce28db1bf3db0 # v2.87.22
 ```
@@ -202,6 +202,7 @@ aws-actions/amazon-eks-fargate@v0
 aws-actions/application-observability-for-aws@v1
 aws-actions/aws-cloudformation-github-deploy@v2
 aws-actions/aws-codebuild-run-build@v1
+aws-actions/aws-continuum-run-pentest@v1
 aws-actions/aws-devicefarm-browser-testing@v3
 aws-actions/aws-devicefarm-mobile-device-testing@v3
 aws-actions/aws-elasticbeanstalk-deploy@v1
@@ -236,6 +237,7 @@ aws-actions/amazon-eks-fargate@fa91b1ce6e342eb17a1d57df976506d02f074640 # v0.1.1
 aws-actions/application-observability-for-aws@3ad2bc7d604dc6853b503f18ad4d5495dcf4ee08 # v1.2.1
 aws-actions/aws-cloudformation-github-deploy@81e3b03d2266bcb76c4bcc37a7d71d9cb67838bb # v2.2.0
 aws-actions/aws-codebuild-run-build@7e46c3fa1c1f217e26a73712796b1f78938b534b # v1.0.19
+aws-actions/aws-continuum-run-pentest@1752c1469cb54edda9933d414490d04cd0cd2d10 # v1.0.0
 aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61bfb1 # v3
 aws-actions/aws-devicefarm-mobile-device-testing@5a6c9fbb66ca99cb92ce07381c8be038f654eff6 # v3
 aws-actions/aws-elasticbeanstalk-deploy@dd5ddd5ba6d4ed614a60db58881028eddb7652cb # v1.1.0
