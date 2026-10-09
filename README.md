@@ -253,7 +253,7 @@ aws-actions/setup-sam@89ddb14d60e682855e3fea4be85b3c56485de310 # v3
 aws-actions/stale-issue-cleanup@0604f2edf84a3a66bc0dfb4a30eb07814cbdf440 # v7.1.1
 aws-actions/sustainability-scanner@af96153806024859a75e721a2e20a285040ee891 # v1.4.0
 aws-actions/terraform-aws-iam-policy-validator@1cd3c484b95b6c3d9e42ca1797d89ae74eb29ede # v1.0.3
-aws-actions/vulnerability-scan-github-action-for-amazon-inspector@baab69e77b34f244adef1f702d0fd69f2b3bc545 # v1.6.0
+aws-actions/vulnerability-scan-github-action-for-amazon-inspector@c87d8a405e237cfdf16e5dd3808d28d088d7cb6f # v1.6.1
 ```
 
 </details>
