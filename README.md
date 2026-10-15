@@ -162,7 +162,7 @@ actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
 actions/setup-elixir@3c118cec41f6c3bfc2c7f2aef9bec886ab0b2324 # v1.5.0
 actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
 actions/setup-haskell@048c29979717135f04282c42c2186bb5945b2d8f # v1.1.4
-actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
 actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
 actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
 actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1.1.3
@@ -240,7 +240,7 @@ aws-actions/aws-codebuild-run-build@7e46c3fa1c1f217e26a73712796b1f78938b534b # v
 aws-actions/aws-continuum-run-pentest@1752c1469cb54edda9933d414490d04cd0cd2d10 # v1.0.0
 aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61bfb1 # v3
 aws-actions/aws-devicefarm-mobile-device-testing@90ae5c7a3ecc7dc5d556f54ed7a674e542bf772b # v3
-aws-actions/aws-elasticbeanstalk-deploy@dd5ddd5ba6d4ed614a60db58881028eddb7652cb # v1.1.0
+aws-actions/aws-elasticbeanstalk-deploy@aa4500f20082bb84ee802a632e74021baabba3b2 # v1.1.1
 aws-actions/aws-lambda-deploy@d496277188b89f0be02d7a2216fc912c0427702a # v1.1.2
 aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1c88 # v3.0.2
 aws-actions/closed-issue-message@10aaf6366131b673a7c8b7742f8b3849f1d44f18 # v2
