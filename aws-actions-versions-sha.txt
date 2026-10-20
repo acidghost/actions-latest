@@ -18,7 +18,7 @@ aws-actions/codeguru-security@44877802cfee29abce47f8ba12b8417d70d01a9b # v1.2.2
 aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
 aws-actions/devops-agent-qa@3e6e4ff02bf14e05936b19c7369e299a6eb5c0f8 # v1
 aws-actions/handle-non-labeled-issues@d6b11a820a09b58180471df5be076df19f05b9dd # v1.0.1
-aws-actions/setup-sam@89ddb14d60e682855e3fea4be85b3c56485de310 # v3
+aws-actions/setup-sam@341eee193f458fa5aae5d52c94b0c5cf3a1c5a52 # v3
 aws-actions/stale-issue-cleanup@0604f2edf84a3a66bc0dfb4a30eb07814cbdf440 # v7.1.1
 aws-actions/sustainability-scanner@e9cc38a79df82ee4130722108aad2f87a2083fa2 # v1.4.1
 aws-actions/terraform-aws-iam-policy-validator@1cd3c484b95b6c3d9e42ca1797d89ae74eb29ede # v1.0.3
