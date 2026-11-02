@@ -183,7 +183,7 @@ golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
 goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
 jdx/mise-action@6612f0ef07ed2a736cd1e00a94a065522dd41195 # v5.2.5
 ruby/setup-ruby@de492cf36cbab201753d720ce4f4e336cd688c94 # v1.336.0
-taiki-e/install-action@68a389c788b2cd04016ce8c80ee23b80d2ab3d68 # v2.88.1
+taiki-e/install-action@1919c4a95903d2c33e4a221102edca87309fc14b # v2.89.0
 ```
 <!-- VERSIONS_SHA_END -->
 
@@ -239,7 +239,7 @@ aws-actions/aws-cloudformation-github-deploy@81e3b03d2266bcb76c4bcc37a7d71d9cb67
 aws-actions/aws-codebuild-run-build@7e46c3fa1c1f217e26a73712796b1f78938b534b # v1.0.19
 aws-actions/aws-continuum-run-pentest@1752c1469cb54edda9933d414490d04cd0cd2d10 # v1.0.0
 aws-actions/aws-devicefarm-browser-testing@08307129ceef7ad2999ce39e54fa9334df61bfb1 # v3
-aws-actions/aws-devicefarm-mobile-device-testing@bb964f15f6f623d527a964c1c0bffc36437b8f7a # v3
+aws-actions/aws-devicefarm-mobile-device-testing@76912d577210947890c4a0485dd808651a1ff8e5 # v3
 aws-actions/aws-elasticbeanstalk-deploy@26fdabf779d6a7607a4996513ed8d342a0734baa # v1.1.3
 aws-actions/aws-lambda-deploy@d496277188b89f0be02d7a2216fc912c0427702a # v1.1.2
 aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1c88 # v3.0.2
