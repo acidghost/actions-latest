@@ -11,7 +11,7 @@ aws-actions/aws-devicefarm-browser-testing@v3
 aws-actions/aws-devicefarm-mobile-device-testing@v3
 aws-actions/aws-elasticbeanstalk-deploy@v1
 aws-actions/aws-lambda-deploy@v1
-aws-actions/aws-secretsmanager-get-secrets@v3
+aws-actions/aws-secretsmanager-get-secrets@v4
 aws-actions/closed-issue-message@v2
 aws-actions/cloudformation-aws-iam-policy-validator@v1.0.4
 aws-actions/codeguru-security@v1
